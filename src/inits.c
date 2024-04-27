@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   table_init.c                                       :+:      :+:    :+:   */
+/*   inits.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/27 18:38:03 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:36:02 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,39 @@ t_table *table_init(int ac, char **av)
 	if (!_is_correct_table(table))
 		__exit("Bad args :(\n");
 
-	table->philos_arr = malloc (sizeof(t_philo) * table->num_of_philos);
+	forks_init(table);
+	philos_init(table);
+
+
+
+
 	
+	return table;
+}
+
+
+void philos_init(t_table * table)
+{
+	table->philos_arr = malloc (sizeof(t_philo) * table->num_of_philos);
+
+	int i = 0;
+	while (i < table->num_of_philos)
+	{
+		table->philos_arr[i].id = i;
+		table->philos_arr[i].forks[left] = &(table->forks_arr[i]);
+		table->philos_arr[i].forks[right] = &(table->forks_arr[(table->num_of_philos + i - 1) % table->num_of_philos]); // uuuu jenerig
+		i++;
+	}
+}
+
+void forks_init(t_table * table)
+{
+	table->forks_arr = malloc (sizeof(t_fork) * table->num_of_philos);
+	int i = 0;
+	while (i < table->num_of_philos)
+	{
+		// pthread_mutex_init(table->forks_arr + i, NULL);
+		table->forks_arr[i].id = i;
+		i++;
+	}
 }

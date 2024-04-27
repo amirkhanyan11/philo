@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/27 18:31:20 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:35:37 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,26 +39,29 @@ typedef struct s_table t_table;
 // funcs
 
 int matoi(char const * str);
-
-
+void forks_init(t_table * table);
+t_table *table_init(int ac, char **av);
+void philos_init(t_table * table);
+void __exit(char const * const err);
 
 // usr def types
 
 enum
 {
-	LEFT = 0,
-	RIGHT
+	left = 0,
+	right = 1
 };
 
 typedef struct s_fork
 {
 	pthread_mutex_t mtx;
-	short num;
+	short id;
 } t_fork;
 
 typedef struct s_philo
 {
 	pthread_t tid;
+	short id;
 	short eating;
 	short thinking;
 	short sleeping;
@@ -76,7 +79,7 @@ typedef struct s_table
 	short times_each_eat; // optional
 
 	t_philo *philos_arr;
-
+	t_fork *forks_arr;
 
 } t_table;
 
