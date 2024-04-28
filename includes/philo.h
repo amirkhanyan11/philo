@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/27 19:35:37 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/04/28 18:27:02 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void forks_init(t_table * table);
 t_table *table_init(int ac, char **av);
 void philos_init(t_table * table);
 void __exit(char const * const err);
+void table_destroy(t_table *table);
+void forks_destroy(t_table *table);
+void philos_destroy(t_table *table);
+void *ph_routine(void *data);
+
 
 // usr def types
 
