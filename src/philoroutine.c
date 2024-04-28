@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/28 18:58:35 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/04/28 21:36:19 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ void *ph_routine(void *data)
 		pthread_mutex_lock(&(philo->forks[left]->mtx));
 		pthread_mutex_lock(&(philo->forks[right]->mtx));
 
-		sleep(2);
+		sleep(4);
 		printf ("philo %d is eating\n", philo->id);
 
 		pthread_mutex_unlock(&(philo->forks[left]->mtx));
 		pthread_mutex_unlock(&(philo->forks[right]->mtx));
 
-		sleep(2);
+		sleep(4);
 		printf ("philo %d is sleeping\n", philo->id);
 		i++;
 	}
