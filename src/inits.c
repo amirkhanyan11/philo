@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/27 19:36:02 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/04/28 18:36:18 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,13 @@ t_table *table_init(int ac, char **av)
 	forks_init(table);
 	philos_init(table);
 
-
-
-
-	
 	return table;
 }
 
 
 void philos_init(t_table * table)
 {
-	table->philos_arr = malloc (sizeof(t_philo) * table->num_of_philos);
+	table->philos_arr = malloc(sizeof(t_philo) * table->num_of_philos);
 
 	int i = 0;
 	while (i < table->num_of_philos)
@@ -64,8 +60,9 @@ void forks_init(t_table * table)
 	int i = 0;
 	while (i < table->num_of_philos)
 	{
-		// pthread_mutex_init(table->forks_arr + i, NULL);
+		pthread_mutex_init(&(table->forks_arr[i].mtx), NULL);
 		table->forks_arr[i].id = i;
 		i++;
 	}
 }
+
