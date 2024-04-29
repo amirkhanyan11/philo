@@ -9,7 +9,7 @@ OBJS = $(patsubst %.c, %.o, $(SRCS))
 CC = cc
 DEBUG = -fsanitize=address
 WFLAGS = -Wall -Wextra -Werror
-CFLAGS =  $(foreach H,$(INCPATH),-I$(H)) #$(DEBUG) # $(WFLAGS)
+CFLAGS =  $(foreach H,$(INCPATH),-I$(H)) $(DEBUG) # $(WFLAGS)
 
 all : $(NAME)
 

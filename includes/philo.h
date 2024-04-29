@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/28 18:27:02 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/04/29 15:55:22 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,21 +33,23 @@
 typedef struct s_philo t_philo;
 typedef struct s_fork t_fork;
 typedef struct s_table t_table;
-
-
+typedef struct timeval timeval_t;
+typedef struct s_waiter t_waiter;
 
 // funcs
 
 int matoi(char const * str);
 void forks_init(t_table * table);
 t_table *table_init(int ac, char **av);
-void philos_init(t_table * table);
+void philos_init(t_table * table, char **av);
 void __exit(char const * const err);
 void table_destroy(t_table *table);
 void forks_destroy(t_table *table);
 void philos_destroy(t_table *table);
-void *ph_routine(void *data);
+void waiter_init(t_table *table);
 
+void *ph_routine(void *data);
+void *w_routine(void *data);
 
 // usr def types
 
@@ -61,28 +63,39 @@ typedef struct s_fork
 {
 	pthread_mutex_t mtx;
 	short id;
+	short being_used;
 } t_fork;
 
 typedef struct s_philo
 {
 	pthread_t tid;
 	short id;
-	short eating;
-	short thinking;
-	short sleeping;
-	short dead;
-	t_fork *forks[2];
+	int time_to_die;
+	int time_to_eat;
+	int time_to_sleep;
+	long long time_last_meal;
+	int can_i_eat;
 
+	t_table *table;
+	t_waiter *waiter;
+	short dead;
+
+	t_fork *forks[2];
 } t_philo;
+
+
+typedef struct s_waiter
+{
+	pthread_t tid;
+
+} t_waiter;
 
 typedef struct s_table
 {
 	short num_of_philos;
-	short time_to_die;
-	short time_to_eat;
-	short time_to_sleep;
 	short times_each_eat; // optional
 
+	t_waiter *waiter;
 	t_philo *philos_arr;
 	t_fork *forks_arr;
 
