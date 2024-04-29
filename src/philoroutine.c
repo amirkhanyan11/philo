@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/29 16:11:33 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/04/29 16:15:13 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,12 @@ void *ph_routine(void *data)
 		{
 			int picked = pick_forks(philo, &time);
 
-			ph_eat(philo, &time);
 
 			if (picked)
+			{
+				ph_eat(philo, &time);
 				drop_forks(philo, &time);
+			}
 			i++;
 		}
 
