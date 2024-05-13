@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/13 14:28:58 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:37:33 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ typedef struct s_fork t_fork;
 typedef struct s_table t_table;
 typedef struct timeval timeval_t;
 typedef struct s_waiter t_waiter;
+typedef void *(*t_fptr)(void *);
+
 
 typedef enum e_opcode
 {
@@ -60,8 +62,15 @@ void forks_destroy(t_table *table);
 void philos_destroy(t_table *table);
 void waiter_init(t_table *table);
 
-void *ph_routine(void *data);
-void *w_routine(void *data);
+void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode);
+void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode);
+void	*ft_malloc(size_t n);
+
+void 	*ph_routine(void *data);
+void 	*w_routine(void *data);
+void	set_val(pthread_mutex_t *mutex, int *dest, int value);
+void	set_val(pthread_mutex_t *mutex, int *dest, int value);
+
 
 // usr def types
 

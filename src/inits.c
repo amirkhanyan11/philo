@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/29 15:55:32 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:37:38 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,9 @@ void philos_init(t_table * table, char **av)
 		table->philos_arr[i].time_to_die = matoi(av[__time_to_die]);
 		table->philos_arr[i].time_to_eat = matoi(av[__time_to_eat]);
 		table->philos_arr[i].time_to_sleep = matoi(av[__time_to_sleep]);
-		table->philos_arr[i].time_last_meal = LONG_MAX;
+		table->philos_arr[i].time_last_meal = INT_MAX;
 		table->philos_arr[i].dead = 0;
 		table->philos_arr[i].can_i_eat = 0;
-		table->philos_arr[i].waiter = table->waiter;
 		table->philos_arr[i].table = table;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/29 17:02:30 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:38:19 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,6 @@ void ph_sleep(t_philo *philo, timeval_t *time)
 	sleep(philo->time_to_sleep);
 }
 
-int can_eat(t_philo *philo)
-{
-	printf("philo %d asks for waiter!\n", philo->id);
-	pthread_create(&(philo->waiter->tid), NULL, w_routine, philo->table);
-	pthread_join(philo->waiter->tid, NULL);
-
-	return (philo->can_i_eat);
-}
 
 int pick_forks(t_philo *philo, timeval_t *time)
 {
@@ -55,7 +47,6 @@ int pick_forks(t_philo *philo, timeval_t *time)
 	}
 	return 0;
 }
-
 
 void drop_forks(t_philo *philo, timeval_t *time)
 {
