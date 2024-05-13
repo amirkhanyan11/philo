@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/29 15:55:22 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:37:33 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #define PHILO_H
 
 #include <pthread.h>
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,6 +36,19 @@ typedef struct s_fork t_fork;
 typedef struct s_table t_table;
 typedef struct timeval timeval_t;
 typedef struct s_waiter t_waiter;
+typedef void *(*t_fptr)(void *);
+
+
+typedef enum e_opcode
+{
+	LOCK,
+	UNLOCK,
+	INIT,
+	DESTROY,
+	CREATE,
+	JOIN,
+	DETACH,
+}			t_opcode;
 
 // funcs
 
@@ -48,8 +62,15 @@ void forks_destroy(t_table *table);
 void philos_destroy(t_table *table);
 void waiter_init(t_table *table);
 
-void *ph_routine(void *data);
-void *w_routine(void *data);
+void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode);
+void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode);
+void	*ft_malloc(size_t n);
+
+void 	*ph_routine(void *data);
+void 	*w_routine(void *data);
+void	set_val(pthread_mutex_t *mutex, int *dest, int value);
+void	set_val(pthread_mutex_t *mutex, int *dest, int value);
+
 
 // usr def types
 
@@ -62,23 +83,22 @@ enum
 typedef struct s_fork
 {
 	pthread_mutex_t mtx;
-	short id;
-	short being_used;
+	int id;
+	int being_used;
 } t_fork;
 
 typedef struct s_philo
 {
 	pthread_t tid;
-	short id;
+	int id;
 	int time_to_die;
 	int time_to_eat;
 	int time_to_sleep;
-	long long time_last_meal;
+	int time_last_meal;
 	int can_i_eat;
 
 	t_table *table;
-	t_waiter *waiter;
-	short dead;
+	int dead;
 
 	t_fork *forks[2];
 } t_philo;
@@ -92,8 +112,12 @@ typedef struct s_waiter
 
 typedef struct s_table
 {
-	short num_of_philos;
-	short times_each_eat; // optional
+	int num_of_philos;
+	int times_each_eat; // optional
+	pthread_mutex_t teble_mtx;
+
+
+	int philos_ready; // x
 
 	t_waiter *waiter;
 	t_philo *philos_arr;

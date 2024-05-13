@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/29 15:30:40 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/13 17:34:41 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,10 @@
 void __begin(t_table * table)
 {
 
-	
-
 	int i = 0;
 	while (i < table->num_of_philos)
 	{
-		pthread_create(&(table->philos_arr[i].tid), NULL, ph_routine, &(table->philos_arr[i]));
+		safe_thread_op(&(table->philos_arr[i].tid), ph_routine, &(table->philos_arr[i]), CREATE);
 		i++;
 	}
 }
