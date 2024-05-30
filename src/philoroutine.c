@@ -6,93 +6,76 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/13 17:38:19 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:46:27 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void ph_eat(t_philo *philo, timeval_t *time)
-{
-
-	printf ("timestamp %ld : philo %d is eating\n", time->tv_sec, philo->id);
-	philo->time_last_meal = time->tv_sec;
-	sleep(philo->time_to_eat);
-}
-
-void ph_sleep(t_philo *philo, timeval_t *time)
-{
-	printf ("timestamp %ld : philo %d is sleeping\n", time->tv_sec, philo->id);
-	sleep(philo->time_to_sleep);
-}
-
-
-int pick_forks(t_philo *philo, timeval_t *time)
+void eat(t_philo *philo, timeval_t *time)
 {
 	int first = left, second = right;
 
-	// if (philo->id % 2 == 0)
-	// 	first = right;
-	// second = !first;
+	if (philo->id % 2 == 0)
+		first = right;
+	second = !first;
 
-	if (philo->forks[first]->being_used == 0 && philo->forks[second]->being_used == 0)
+	safe_mutex_op(&(philo->forks[first]), LOCK);
+	philo_log(TAKE_FORK, philo);
+	safe_mutex_op(&(philo->forks[second]), LOCK);
+	philo_log(TAKE_FORK, philo);
+
+	set_val(&(philo->mtx), philo->time_last_meal, get_time(MILLISECOND));
+	philo_log(EAT, philo);
+	ft_usleep(philo->table->time_to_eat, philo->table);
+
+	if (philo->table->times_each_eat == ++(philo->meal_count))
+		set_bool(&(philo->mtx), &(philo->full), 1);
+
+	safe_mutex_op(&(philo->forks[second]), UNLOCK);
+	safe_mutex_op(&(philo->forks[first]), UNLOCK);
+
+}
+
+void think(t_philo *philo, timeval_t *time)
+{
+	
+}
+
+void philo_log(t_philo_op opcode, t_philo *philo)
+{
+	safe_mutex_op(&(philo->table->iomtx), LOCK);
+	if (!dinner_finished(philo->table))
 	{
-		philo->forks[first]->being_used = 1;
-		pthread_mutex_lock(&(philo->forks[first]->mtx));
-		printf ("timestamp %ld : philo %d picked up fork %d \n", time->tv_sec, philo->id, philo->forks[first]->id);
-		philo->forks[second]->being_used = 1;
-		pthread_mutex_lock(&(philo->forks[second]->mtx));
-		printf ("timestamp %ld : philo %d picked up fork %d \n", time->tv_sec, philo->id, philo->forks[second]->id);
-		return 1;
+		if (TAKE_FORK == opcode)
+		{
+			printf("%d %d has taken a fork\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+		}
+		else if (EAT == opcode)
+		{
+			printf("%d %d is eating\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+		}
+		else if (SLEEP == opcode)
+		{
+			printf("%d %d is sleeping\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+		}
+		else if (THINK == opcode)
+		{
+			printf("%d %d is thinking\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+		}
 	}
-	return 0;
+	safe_mutex_op(&(philo->table->iomtx), UNLOCK);
 }
 
-void drop_forks(t_philo *philo, timeval_t *time)
-{
-	int first = left, second = right;
-
-	// if (philo->id % 2 == 0)
-	// 	first = right;
-	// second = !first;
-
-
-	philo->forks[first]->being_used = 0;
-	pthread_mutex_unlock(&(philo->forks[first]->mtx));
-	printf ("timestamp %ld : philo %d putted down fork %d \n", time->tv_sec, philo->id, philo->forks[first]->id);
-	philo->forks[second]->being_used = 0;
-	pthread_mutex_unlock(&(philo->forks[second]->mtx));
-	printf ("timestamp %ld : philo %d putted down fork %d \n", time->tv_sec, philo->id, philo->forks[second]->id);
-
-}
 
 
 void *ph_routine(void *data)
 {
 	t_philo * philo = (t_philo *)data;
-	int i = 0;
+	wait4all(&philo->table);
 
-
-	timeval_t time;
-
-	while (i < philo->table->times_each_eat)
+	while (!philo->full && !dinner_finished(philo->table))
 	{
-		gettimeofday(&time, NULL);
 
-
-
-		int picked = pick_forks(philo, &time);
-
-		if (picked)
-		{
-			ph_eat(philo, &time);
-			drop_forks(philo, &time);
-			i++;
-		}
-
-
-		ph_sleep(philo, &time);
 	}
-	philo->dead = 1;
-	return data;
 }

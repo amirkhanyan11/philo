@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/13 17:37:38 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:39:44 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,15 @@ t_table *table_init(int ac, char **av)
 		table->times_each_eat = -1;
 
 
+	table->start_sim = 0;
+	table->end_sim = 0;
+
+	safe_mutex_op(&table->mtx, INIT);
+	safe_mutex_op(&table->iomtx, INIT);
 	forks_init(table);
 	waiter_init(table);
 	philos_init(table, av);
+
 
 	// if (!_is_correct_table(table))
 	// {
@@ -59,12 +65,14 @@ void philos_init(t_table * table, char **av)
 		table->philos_arr[i].forks[left] = &(table->forks_arr[i]);
 		table->philos_arr[i].forks[right] = &(table->forks_arr[(table->num_of_philos + i - 1) % table->num_of_philos]); // uuuu jenerig
 
+		safe_mutex_op(&(table->philos_arr[i].mtx), INIT);
 		table->philos_arr[i].time_to_die = matoi(av[__time_to_die]);
 		table->philos_arr[i].time_to_eat = matoi(av[__time_to_eat]);
 		table->philos_arr[i].time_to_sleep = matoi(av[__time_to_sleep]);
 		table->philos_arr[i].time_last_meal = INT_MAX;
 		table->philos_arr[i].dead = 0;
-		table->philos_arr[i].can_i_eat = 0;
+		table->philos_arr[i].full = 0;
+		table->philos_arr[i].meal_count = 0;
 		table->philos_arr[i].table = table;
 		i++;
 	}
@@ -76,7 +84,7 @@ void forks_init(t_table * table)
 	int i = 0;
 	while (i < table->num_of_philos)
 	{
-		pthread_mutex_init(&(table->forks_arr[i].mtx), NULL);
+		safe_mutex_op(&(table->forks_arr[i].mtx), INIT);
 		table->forks_arr[i].id = i;
 		table->forks_arr[i].being_used = 0;
 		i++;

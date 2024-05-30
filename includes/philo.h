@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/13 17:37:33 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:41:46 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,13 @@ typedef enum e_opcode
 	DETACH,
 }			t_opcode;
 
+typedef enum e_time_code
+{
+	SECONDS,
+	MILLISECOND = 1e3,
+	MICROSECOND = 1e6,
+}		t_time_code;
+
 // funcs
 
 int matoi(char const * str);
@@ -69,7 +76,11 @@ void	*ft_malloc(size_t n);
 void 	*ph_routine(void *data);
 void 	*w_routine(void *data);
 void	set_val(pthread_mutex_t *mutex, int *dest, int value);
-void	set_val(pthread_mutex_t *mutex, int *dest, int value);
+int		get_val(pthread_mutex_t *mutex, int *value);
+void	wait4all(t_table *table);
+int 	dinner_finished(t_table * table);
+void	ft_usleep(int sec);
+void	philo_log(t_philo_op opcode, t_philo *philo);
 
 
 // usr def types
@@ -79,6 +90,15 @@ enum
 	left = 0,
 	right = 1
 };
+
+typedef enum e_me
+{
+	EAT,
+	SLEEP,
+	THINK,
+	TAKE_FORK,
+	DIE,
+}			t_philo_op;
 
 typedef struct s_fork
 {
@@ -90,12 +110,14 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	pthread_t tid;
+	pthread_mutex_t mtx;
 	int id;
 	int time_to_die;
 	int time_to_eat;
 	int time_to_sleep;
 	int time_last_meal;
-	int can_i_eat;
+	int meal_count;
+	int full;
 
 	t_table *table;
 	int dead;
@@ -114,10 +136,13 @@ typedef struct s_table
 {
 	int num_of_philos;
 	int times_each_eat; // optional
-	pthread_mutex_t teble_mtx;
+	int start_sim;
+	int end_sim;
+	pthread_mutex_t mtx;
+	pthread_mutex_t iomtx;
 
 
-	int philos_ready; // x
+	int all_set; // x
 
 	t_waiter *waiter;
 	t_philo *philos_arr;

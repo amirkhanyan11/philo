@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:47:17 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/28 18:35:53 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/13 18:46:28 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void forks_destroy(t_table *table)
 	int i = 0;
 	while (i < table->num_of_philos)
 	{
-		pthread_mutex_destroy(&(table->forks_arr[i].mtx));
+		safe_mutex_op(&(table->forks_arr[i].mtx), DESTROY);
 		i++;
 	}
 	free (table->forks_arr);
@@ -32,7 +32,7 @@ void philos_destroy(t_table *table)
 	int i = 0;
 	while (i < table->num_of_philos)
 	{
-		pthread_join(table->philos_arr[i].tid, NULL);
+		safe_thread_op(&(table->philos_arr[i].tid), NULL, NULL, JOIN);
 		i++;
 	}
 
@@ -42,6 +42,7 @@ void philos_destroy(t_table *table)
 
 void table_destroy(t_table *table)
 {
+	safe_mutex_op(&table->mtx, DESTROY);
 	philos_destroy(table);
 	forks_destroy(table);
 

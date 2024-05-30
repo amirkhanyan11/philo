@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/13 17:35:14 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:07:45 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ void	set_val(pthread_mutex_t *mutex, int *dest, int value)
 }
 
 
+int dinner_finished(t_table * table)
+{
+	return get_val(&(table->mtx), end_sim);
+}
+
 void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
 {
 	if (CREATE == opcode)
@@ -109,3 +114,5 @@ void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
 	else if (DETACH == opcode)
 		__thread_err(pthread_detach(*thread), opcode);
 }
+
+
