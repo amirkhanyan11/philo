@@ -32,5 +32,13 @@ fclean : clean
 
 re : fclean all
 
+sync :
+
+	make fclean
+	git add .
+	git commit -m "."
+	git push origin master
+
+
 .PHONY : all clean fclean re
 
