@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/30 20:41:46 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:53:05 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,27 @@ typedef enum e_opcode
 typedef enum e_time_code
 {
 	SECONDS,
-	MILLISECOND = 1e3,
-	MICROSECOND = 1e6,
+	MILLISECOND = 1000,
+	MICROSECOND = 1000000,
 }		t_time_code;
+
+typedef enum e_me
+{
+	EAT,
+	SLEEP,
+	THINK,
+	TAKE_FORK,
+	DIE,
+}			t_philo_op;
+
+
+enum
+{
+	left = 0,
+	right = 1
+};
+
+
 
 // funcs
 
@@ -75,30 +93,14 @@ void	*ft_malloc(size_t n);
 
 void 	*ph_routine(void *data);
 void 	*w_routine(void *data);
-void	set_val(pthread_mutex_t *mutex, int *dest, int value);
-int		get_val(pthread_mutex_t *mutex, int *value);
+void	set_val(pthread_mutex_t *mutex, long *dest, long value);
+int		get_val(pthread_mutex_t *mutex, long *value);
 void	wait4all(t_table *table);
 int 	dinner_finished(t_table * table);
-void	ft_usleep(int sec);
+void	ft_usleep(int sec, t_table *table);
 void	philo_log(t_philo_op opcode, t_philo *philo);
+int 	get_time(t_time_code time_code);
 
-
-// usr def types
-
-enum
-{
-	left = 0,
-	right = 1
-};
-
-typedef enum e_me
-{
-	EAT,
-	SLEEP,
-	THINK,
-	TAKE_FORK,
-	DIE,
-}			t_philo_op;
 
 typedef struct s_fork
 {
@@ -112,15 +114,15 @@ typedef struct s_philo
 	pthread_t tid;
 	pthread_mutex_t mtx;
 	int id;
-	int time_to_die;
-	int time_to_eat;
-	int time_to_sleep;
-	int time_last_meal;
-	int meal_count;
-	int full;
+	long time_to_die;
+	long time_to_eat;
+	long time_to_sleep;
+	long time_last_meal;
+	long meal_count;
+	long full;
 
 	t_table *table;
-	int dead;
+	long dead;
 
 	t_fork *forks[2];
 } t_philo;
@@ -129,20 +131,19 @@ typedef struct s_philo
 typedef struct s_waiter
 {
 	pthread_t tid;
-
 } t_waiter;
 
 typedef struct s_table
 {
-	int num_of_philos;
-	int times_each_eat; // optional
-	int start_sim;
-	int end_sim;
+	long num_of_philos;
+	long times_each_eat; // optional
+	long start_sim;
+	long end_sim;
 	pthread_mutex_t mtx;
 	pthread_mutex_t iomtx;
 
 
-	int all_set; // x
+	long all_set; // x
 
 	t_waiter *waiter;
 	t_philo *philos_arr;

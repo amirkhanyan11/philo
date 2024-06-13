@@ -2,9 +2,10 @@ NAME = philo
 
 SRCSPATH = ./src/
 INCPATH = ./includes/
+OBJSPATH = ./objs/
 
 SRCS = $(wildcard $(SRCSPATH)*.c)
-OBJS = $(patsubst %.c, %.o, $(SRCS))
+OBJS = $(patsubst $(SRCSPATH)%.c, $(OBJSPATH)%.o, $(SRCS))
 
 CC = cc
 DEBUG = -fsanitize=address
@@ -13,16 +14,17 @@ CFLAGS =  $(foreach H,$(INCPATH),-I$(H)) $(DEBUG) # $(WFLAGS)
 
 all : $(NAME)
 
-$(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS)  -o $@
+$(OBJSPATH) :
+	mkdir -p objs
 
+$(NAME) : $(OBJSPATH) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) -o $@
 
-$(SRCSPATH)%.o : $(SRCSPATH)%.c Makefile
+$(OBJSPATH)%.o : $(SRCSPATH)%.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean :
-
-	rm -f $(OBJS)
+	rm -rf $(OBJSPATH)
 
 fclean : clean
 

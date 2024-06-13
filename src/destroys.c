@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:47:17 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/13 18:46:28 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/13 13:06:52 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ void philos_destroy(t_table *table)
 {
 	// joins maybe
 
-	int i = 0;
-	while (i < table->num_of_philos)
-	{
-		safe_thread_op(&(table->philos_arr[i].tid), NULL, NULL, JOIN);
-		i++;
-	}
+	// int i = 0;
+	// while (i < table->num_of_philos)
+	// {
+	// 	safe_thread_op(&(table->philos_arr[i].tid), NULL, NULL, JOIN);
+	// 	i++;
+	// }
 
 	free (table->philos_arr);
 	table->philos_arr = NULL;

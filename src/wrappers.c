@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/30 20:07:45 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/13 12:53:16 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode)
 		__mutex_err(pthread_mutex_destroy(mutex), opcode);
 }
 
-int	get_val(pthread_mutex_t *mutex, int *value)
+int	get_val(pthread_mutex_t *mutex, long *value)
 {
 	int	ret;
 
@@ -92,7 +92,7 @@ int	get_val(pthread_mutex_t *mutex, int *value)
 	return (ret);
 }
 
-void	set_val(pthread_mutex_t *mutex, int *dest, int value)
+void	set_val(pthread_mutex_t *mutex, long *dest, long value)
 {
 	__lock(mutex);
 	*dest = value;
@@ -102,7 +102,7 @@ void	set_val(pthread_mutex_t *mutex, int *dest, int value)
 
 int dinner_finished(t_table * table)
 {
-	return get_val(&(table->mtx), end_sim);
+	return get_val(&(table->mtx), &(table->end_sim));
 }
 
 void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
