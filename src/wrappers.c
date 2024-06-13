@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 12:53:16 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/13 15:37:54 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,12 @@ static void	__thread_err(int status, t_opcode opcode) // ??
 }
 
 
-static void __lock(pthread_mutex_t *mutex)
+void __lock(pthread_mutex_t *mutex)
 {
 	safe_mutex_op(mutex, LOCK);
 }
 
-static void __unlock(pthread_mutex_t *mutex)
+void __unlock(pthread_mutex_t *mutex)
 {
 	safe_mutex_op(mutex, UNLOCK);
 }
@@ -99,6 +99,23 @@ void	set_val(pthread_mutex_t *mutex, long *dest, long value)
 	__unlock(mutex);
 }
 
+void	inc_val(pthread_mutex_t *mutex, long *val)
+{
+	__lock(mutex);
+	++(*val);
+	__unlock(mutex);
+}
+
+int	check_equality(pthread_mutex_t *mutex, long *lhv, long rhv)
+{
+	int res;
+	
+	__lock(mutex);
+	res = (*lhv == rhv);
+	__unlock(mutex);
+
+	return res;
+}
 
 int dinner_finished(t_table * table)
 {

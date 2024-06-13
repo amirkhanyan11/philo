@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/05/30 20:39:44 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:24:17 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ t_table *table_init(int ac, char **av)
 
 	table->start_sim = 0;
 	table->end_sim = 0;
+	table->active_threads = 0;
 
 	safe_mutex_op(&table->mtx, INIT);
 	safe_mutex_op(&table->iomtx, INIT);
 	forks_init(table);
-	waiter_init(table);
 	philos_init(table, av);
 
 
@@ -46,11 +46,6 @@ t_table *table_init(int ac, char **av)
 	// }
 
 	return table;
-}
-
-void waiter_init(t_table *table)
-{
-	table->waiter = malloc(sizeof(t_waiter));
 }
 
 
@@ -66,9 +61,9 @@ void philos_init(t_table * table, char **av)
 		table->philos_arr[i].forks[right] = &(table->forks_arr[(table->num_of_philos + i - 1) % table->num_of_philos]); // uuuu jenerig
 
 		safe_mutex_op(&(table->philos_arr[i].mtx), INIT);
-		table->philos_arr[i].time_to_die = matoi(av[__time_to_die]);
-		table->philos_arr[i].time_to_eat = matoi(av[__time_to_eat]);
-		table->philos_arr[i].time_to_sleep = matoi(av[__time_to_sleep]);
+		table->philos_arr[i].time_to_die = matoi(av[__time_to_die]) * MILLISECOND;
+		table->philos_arr[i].time_to_eat = matoi(av[__time_to_eat]) * MILLISECOND;
+		table->philos_arr[i].time_to_sleep = matoi(av[__time_to_sleep]) * MILLISECOND;
 		table->philos_arr[i].time_last_meal = INT_MAX;
 		table->philos_arr[i].dead = 0;
 		table->philos_arr[i].full = 0;

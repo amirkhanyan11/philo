@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 13:05:37 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:58:43 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void eat(t_philo *philo)
 		first = right;
 	second = !first;
 
-	safe_mutex_op(&(philo->forks[first]->mtx), LOCK);
+	__lock(&(philo->forks[first]->mtx));
 	philo_log(TAKE_FORK, philo);
-	safe_mutex_op(&(philo->forks[second]->mtx), LOCK);
+	__lock(&(philo->forks[second]->mtx));
 	philo_log(TAKE_FORK, philo);
 
 	set_val(&(philo->mtx), &(philo->time_last_meal), get_time(MILLISECOND));
@@ -33,19 +33,20 @@ void eat(t_philo *philo)
 	if (philo->table->times_each_eat > 0 && philo->meal_count == philo->table->times_each_eat)
 		set_val(&(philo->mtx), &(philo->full), 1);
 
-	safe_mutex_op(&(philo->forks[second]->mtx), UNLOCK);
-	safe_mutex_op(&(philo->forks[first]->mtx), UNLOCK);
+	__unlock(&(philo->forks[second]->mtx));
+	__unlock(&(philo->forks[first]->mtx));
 
 }
 
 void think(t_philo *philo)
 {
 	philo_log(THINK, philo);
+	ft_usleep(100000, philo->table);
 }
 
 void philo_log(t_philo_op opcode, t_philo *philo)
 {
-	safe_mutex_op(&(philo->table->iomtx), LOCK);
+	__lock(&(philo->table->iomtx));
 	if (!dinner_finished(philo->table))
 	{
 		if (TAKE_FORK == opcode)
@@ -65,15 +66,17 @@ void philo_log(t_philo_op opcode, t_philo *philo)
 			printf("%ld %d is thinking\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 		}
 	}
-	safe_mutex_op(&(philo->table->iomtx), UNLOCK);
+	__unlock(&(philo->table->iomtx));
 }
-
-
 
 void *ph_routine(void *data)
 {
 	t_philo * philo = (t_philo *)data;
 	wait4all(philo->table);
+
+	set_val(&philo->table->mtx, &philo->time_last_meal, get_time(MILLISECOND));
+
+	inc_val(&(philo->table->mtx), &(philo->table->active_threads));
 
 	while (!philo->full && !dinner_finished(philo->table))
 	{
@@ -85,5 +88,30 @@ void *ph_routine(void *data)
 		think(philo);
 	}
 
+	return data;
+}
+
+
+void *ob_routine(void * data)
+{
+	t_table * table = (t_table *)data;
+
+	while (0 == check_equality(&table->mtx, &table->active_threads, table->num_of_philos));
+
+
+	while (!dinner_finished(table))
+	{
+		int i = 0;
+		while (i < table->num_of_philos && !dinner_finished(table))
+		{
+			if (0 == get_val(&table->mtx, &(table->philos_arr[i].full)) && get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)) > (table->philos_arr[i].time_to_die / MILLISECOND))
+			{
+				set_val(&table->mtx, &table->end_sim, 1);
+				philo_log(DIE, &table->philos_arr[i]);
+			}
+			// printf("Dinner finished : %ld : %ld\n", get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)), table->philos_arr[i].time_to_die);
+			i++;
+		}
+	}
 	return data;
 }

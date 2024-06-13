@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 12:53:05 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/13 17:00:13 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ void waiter_init(t_table *table);
 void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode);
 void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode);
 void	*ft_malloc(size_t n);
+void __lock(pthread_mutex_t *mutex);
+void __unlock(pthread_mutex_t *mutex);
+
 
 void 	*ph_routine(void *data);
 void 	*w_routine(void *data);
@@ -97,9 +100,13 @@ void	set_val(pthread_mutex_t *mutex, long *dest, long value);
 int		get_val(pthread_mutex_t *mutex, long *value);
 void	wait4all(t_table *table);
 int 	dinner_finished(t_table * table);
-void	ft_usleep(int sec, t_table *table);
+void	ft_usleep(long sec, t_table *table);
 void	philo_log(t_philo_op opcode, t_philo *philo);
-int 	get_time(t_time_code time_code);
+long 	get_time(t_time_code time_code);
+void	*ob_routine(void * data);
+void	inc_val(pthread_mutex_t *mutex, long *val);
+int		check_equality(pthread_mutex_t *mutex, long *lhv, long rhv);
+
 
 
 typedef struct s_fork
@@ -125,13 +132,8 @@ typedef struct s_philo
 	long dead;
 
 	t_fork *forks[2];
-} t_philo;
+}	t_philo;
 
-
-typedef struct s_waiter
-{
-	pthread_t tid;
-} t_waiter;
 
 typedef struct s_table
 {
@@ -139,8 +141,10 @@ typedef struct s_table
 	long times_each_eat; // optional
 	long start_sim;
 	long end_sim;
+	long active_threads;
 	pthread_mutex_t mtx;
 	pthread_mutex_t iomtx;
+	pthread_t observer;
 
 
 	long all_set; // x
