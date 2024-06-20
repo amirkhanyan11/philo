@@ -6,26 +6,44 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/20 14:51:44 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:32:33 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
+void *foo(void *data)
+{
+	t_philo *philo = (t_philo*)data;
+
+	wait4all(philo->table);
+	set_val(&philo->table->mtx, &philo->time_last_meal, get_time(MILLISECOND));
+	inc_val(&(philo->table->mtx), &(philo->table->active_threads));
+	philo_log(TAKE_FORK, philo);
+	while(!dinner_finished(philo->table));
+	return NULL;
+}
 
 void __begin(t_table * table)
 {
 	int i = 0;
 
-	// if (table->num_of_philos == 1)
-
-	while (i < table->num_of_philos)
+	if (table->num_of_philos == 1)
 	{
-		// create threads
-		safe_thread_op(&(table->philos_arr[i].tid), ph_routine, &(table->philos_arr[i]), CREATE);
-		i++;
+		safe_thread_op(&(table->philos_arr[0].tid), foo, &(table->philos_arr[0]), CREATE);
 	}
+
+	else
+	{
+		while (i < table->num_of_philos)
+		{
+			// create threads
+			safe_thread_op(&(table->philos_arr[i].tid), ph_routine, &(table->philos_arr[i]), CREATE);
+			i++;
+		}
+	}
+
 
 
 	// notify that all threads are ready
@@ -42,6 +60,12 @@ void __begin(t_table * table)
 		// join all threads
 		safe_thread_op(&(table->philos_arr[i++].tid), NULL, NULL, JOIN);
 	}
+
+	set_val(&table->mtx, &table->end_sim, 1);
+	safe_thread_op(&(table->observer), NULL, NULL, JOIN);
+
+	// printf("Everyone is full and happy!\n");
+
 }
 
 

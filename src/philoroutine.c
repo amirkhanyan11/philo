@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/20 14:54:58 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:26:17 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ void philo_log(t_philo_op opcode, t_philo *philo)
 		{
 			printf("%ld %d is thinking\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 		}
+		else if (DIE == opcode)
+		{
+			printf("%ld %d died\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+		}
 	}
 	__unlock(&(philo->table->iomtx));
 }
@@ -82,8 +86,8 @@ void *ph_routine(void *data)
 	{
 		eat(philo);
 
-		philo_log(SLEEP, philo);
 		ft_usleep(philo->time_to_sleep, philo->table);
+		philo_log(SLEEP, philo);
 
 		think(philo);
 	}
@@ -98,7 +102,7 @@ void *ob_routine(void * data)
 
 	while (0 == check_equality(&table->mtx, &table->active_threads, table->num_of_philos));
 
-	printf("ready : %ld\n", get_val(&table->mtx, &table->active_threads));
+	// printf("ready : %ld\n", get_val(&table->mtx, &table->active_threads));
 
 	while (!dinner_finished(table))
 	{
@@ -107,8 +111,8 @@ void *ob_routine(void * data)
 		{
 			if (0 == get_val(&table->mtx, &(table->philos_arr[i].full)) && get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)) > (table->philos_arr[i].time_to_die / MILLISECOND))
 			{
-				set_val(&table->mtx, &table->end_sim, 1);
 				philo_log(DIE, &table->philos_arr[i]);
+				set_val(&table->mtx, &table->end_sim, 1);
 			}
 			// printf("Dinner finished : %ld : %ld\n", get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)), table->philos_arr[i].time_to_die);
 			i++;
