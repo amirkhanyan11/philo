@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 16:58:43 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:54:58 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void *ob_routine(void * data)
 
 	while (0 == check_equality(&table->mtx, &table->active_threads, table->num_of_philos));
 
+	printf("ready : %ld\n", get_val(&table->mtx, &table->active_threads));
 
 	while (!dinner_finished(table))
 	{

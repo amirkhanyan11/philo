@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:38:48 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 15:20:49 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:49:59 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,5 +15,5 @@
 
 void wait4all(t_table *table)
 {
-	while (0 == get_val(&table->mtx, &table->all_set));
+	while (1 != get_val(&(table->mtx), &(table->all_set)));
 }

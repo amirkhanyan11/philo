@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 16:24:17 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:26:53 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void forks_init(t_table * table)
 	{
 		safe_mutex_op(&(table->forks_arr[i].mtx), INIT);
 		table->forks_arr[i].id = i;
-		table->forks_arr[i].being_used = 0;
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/16 16:31:22 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:56:53 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode)
 		__mutex_err(pthread_mutex_destroy(mutex));
 }
 
-int	get_val(pthread_mutex_t *mutex, long *value)
+long	get_val(pthread_mutex_t *mutex, long *value)
 {
-	int	ret;
+	long	ret;
 
 	__lock(mutex);
 	ret = *value;

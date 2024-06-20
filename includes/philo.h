@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 17:00:13 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:57:07 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,27 +77,27 @@ enum
 
 // funcs
 
-int matoi(char const * str);
-void forks_init(t_table * table);
+int 	matoi(char const * str);
+void 	forks_init(t_table * table);
 t_table *table_init(int ac, char **av);
-void philos_init(t_table * table, char **av);
-void __exit(char const * const err);
-void table_destroy(t_table *table);
-void forks_destroy(t_table *table);
-void philos_destroy(t_table *table);
-void waiter_init(t_table *table);
+void 	philos_init(t_table * table, char **av);
+void 	__exit(char const * const err);
+void 	table_destroy(t_table *table);
+void 	forks_destroy(t_table *table);
+void 	philos_destroy(t_table *table);
+void 	waiter_init(t_table *table);
 
 void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode);
 void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode);
 void	*ft_malloc(size_t n);
-void __lock(pthread_mutex_t *mutex);
-void __unlock(pthread_mutex_t *mutex);
+void 	__lock(pthread_mutex_t *mutex);
+void 	__unlock(pthread_mutex_t *mutex);
 
 
 void 	*ph_routine(void *data);
 void 	*w_routine(void *data);
 void	set_val(pthread_mutex_t *mutex, long *dest, long value);
-int		get_val(pthread_mutex_t *mutex, long *value);
+long	get_val(pthread_mutex_t *mutex, long *value);
 void	wait4all(t_table *table);
 int 	dinner_finished(t_table * table);
 void	ft_usleep(long sec, t_table *table);
@@ -113,7 +113,6 @@ typedef struct s_fork
 {
 	pthread_mutex_t mtx;
 	int id;
-	int being_used;
 } t_fork;
 
 typedef struct s_philo

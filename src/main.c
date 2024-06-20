@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 16:55:53 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:51:44 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ void __begin(t_table * table)
 	// notify that all threads are ready
 	set_val(&table->mtx, &table->start_sim, get_time(MILLISECOND));
 	set_val(&table->mtx, &table->all_set, 1);
+	safe_thread_op(&(table->observer), ob_routine, table, CREATE);
 
-	// safe_thread_op(&(table->observer), ob_routine, table, CREATE);
+	// printf ("time mime : %ld\n", get_time(MILLISECOND) - get_val(&table->mtx, &table->start_sim));
+
 
 	i = 0;
 	while (i < table->num_of_philos)
