@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/13 15:37:54 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/16 16:31:22 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_malloc(size_t n)
 	return (ptr);
 }
 
-static void	__mutex_err(int status, t_opcode opcode)
+static void	__mutex_err(int status)
 {
 	if (0 == status)
 		return ;
@@ -59,7 +59,6 @@ static void	__thread_err(int status, t_opcode opcode) // ??
 		__exit("A deadlock was detected or the value of thread specifies the calling thread.");
 }
 
-
 void __lock(pthread_mutex_t *mutex)
 {
 	safe_mutex_op(mutex, LOCK);
@@ -73,13 +72,13 @@ void __unlock(pthread_mutex_t *mutex)
 void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
-		__mutex_err(pthread_mutex_lock(mutex), opcode);
+		__mutex_err(pthread_mutex_lock(mutex));
 	else if (UNLOCK == opcode)
-		__mutex_err(pthread_mutex_unlock(mutex), opcode);
+		__mutex_err(pthread_mutex_unlock(mutex));
 	else if (INIT == opcode)
-		__mutex_err(pthread_mutex_init(mutex, NULL), opcode);
+		__mutex_err(pthread_mutex_init(mutex, NULL));
 	else if (DESTROY == opcode)
-		__mutex_err(pthread_mutex_destroy(mutex), opcode);
+		__mutex_err(pthread_mutex_destroy(mutex));
 }
 
 int	get_val(pthread_mutex_t *mutex, long *value)
