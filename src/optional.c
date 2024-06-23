@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:03:33 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 20:50:36 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 21:07:04 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void set_optional(t_optional *optional, t_value val)
 
 t_value value(t_optional *optional)
 {
-    if (optional->has_value) return optional->value;
+    if (has_value(optional)) return optional->value;
 
     __exit("Bad optional access");
 }
