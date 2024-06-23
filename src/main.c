@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 17:28:55 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:10:21 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void __begin(t_table * table)
 {
 	int i = 0;
 
+	if (0 == table->times_each_eat) return ;
+
 	if (table->num_of_philos == 1)
 	{
 		safe_thread_op(&(table->philos_arr[0].tid), foo, &(table->philos_arr[0]), CREATE);
@@ -38,23 +40,22 @@ void __begin(t_table * table)
 		while (i < table->num_of_philos)
 		{
 			// create threads
-			safe_thread_op(&(table->philos_arr[i].tid), ph_routine, &(table->philos_arr[i]), CREATE);
+			safe_thread_op(&(table->philos_arr[i].tid), philo_routine, &(table->philos_arr[i]), CREATE);
 			i++;
 		}
 	}
+	safe_thread_op(&(table->observer), observer_routine, table, CREATE);
 
 	// notify that all threads are ready
-	set_val(&table->mtx, &table->start_sim, get_time(MILLISECOND));
+	table->start_sim = get_time(MILLISECOND);
 	set_val(&table->mtx, &table->all_set, 1);
-	safe_thread_op(&(table->observer), ob_routine, table, CREATE);
-
-	// printf ("time mime : %ld\n", get_time(MILLISECOND) - get_val(&table->mtx, &table->start_sim));
 
 	i = 0;
 	while (i < table->num_of_philos)
 	{
 		// join all threads
-		safe_thread_op(&(table->philos_arr[i++].tid), NULL, NULL, JOIN);
+		safe_thread_op(&(table->philos_arr[i].tid), NULL, NULL, JOIN);
+		i++;
 	}
 
 	set_val(&table->mtx, &table->end_sim, 1);
@@ -82,13 +83,7 @@ int main(int ac, char **av)
 		__exit("Bad args :(\n");
 
 	t_table *table = table_init(ac, av);
-
-	// for (int i = 0; i < table->num_of_philos; i++)
-	// {
-	// 	t_philo *current = &(table->philos_arr[i]);
-	// 	printf ("forks of philo %d -> left %d & right %d\n", current->id, current->forks[left]->id, current->forks[right]->id);
-	// }
-
+	
 	__begin(table);
 	$t_table(table);
 	

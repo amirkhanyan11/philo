@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 16:56:46 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 18:18:20 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 #define __time_to_eat 3
 #define __time_to_sleep 4
 #define __number_of_times_each_philosopher_must_eat 5
+
+#define PURPLE "\033[1;35m"
+#define CYAN "\033[1;36m"
+#define GREEN "\033[1;33m"
+#define RED "\033[1;31m"
+#define RESET "\033[0m"
+
 
 // ./ph number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 
@@ -80,7 +87,7 @@ enum
 int 	matoi(char const * str);
 void 	forks_init(t_table * table);
 t_table *table_init(int ac, char **av);
-void 	philos_init(t_table * table, char **av);
+void 	philos_init(t_table * table);
 void 	__exit(char const * const err);
 void 	forks_destroy(t_table *table);
 void 	waiter_init(t_table *table);
@@ -92,7 +99,7 @@ void 	__lock(pthread_mutex_t *mutex);
 void 	__unlock(pthread_mutex_t *mutex);
 
 
-void 	*ph_routine(void *data);
+void 	*philo_routine(void *data);
 void 	*w_routine(void *data);
 void	set_val(pthread_mutex_t *mutex, long *dest, long value);
 long	get_val(pthread_mutex_t *mutex, long *value);
@@ -101,7 +108,7 @@ int 	dinner_finished(t_table * table);
 void	ft_usleep(long sec, t_table *table);
 void	philo_log(t_philo_op opcode, t_philo *philo);
 long 	get_time(t_time_code time_code);
-void	*ob_routine(void * data);
+void	*observer_routine(void * data);
 void	inc_val(pthread_mutex_t *mutex, long *val);
 int		check_equality(pthread_mutex_t *mutex, long *lhv, long rhv);
 
@@ -119,9 +126,7 @@ typedef struct s_philo
 	pthread_t tid;
 	pthread_mutex_t mtx;
 	int id;
-	long time_to_die;
-	long time_to_eat;
-	long time_to_sleep;
+
 	long time_last_meal;
 	long meal_count;
 	long full;
@@ -140,6 +145,11 @@ typedef struct s_table
 	long start_sim;
 	long end_sim;
 	long active_threads;
+
+	long time_to_die;
+	long time_to_eat;
+	long time_to_sleep;
+	
 	pthread_mutex_t mtx;
 	pthread_mutex_t iomtx;
 	pthread_t observer;
