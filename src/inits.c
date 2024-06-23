@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 17:49:15 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 19:37:12 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ t_table *table_init(int ac, char **av)
 	table->time_to_sleep = matoi(av[__time_to_sleep]) * MILLISECOND;
 
 	table->start_sim = 0;
-	table->end_sim = 0;
-	table->all_set = 0;
+	table->end_sim = false;
+	table->all_set = false;
 	table->active_threads = 0;
 
 	safe_mutex_op(&table->mtx, INIT);

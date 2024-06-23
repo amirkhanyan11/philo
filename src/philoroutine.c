@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 18:17:54 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 19:58:50 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,15 @@ void __eat(t_philo *philo)
 
 	__unlock(&(philo->forks[second]->mtx));
 	__unlock(&(philo->forks[first]->mtx));
-
 }
 
-void __think(t_philo *philo)
+static void __attribute__((always_inline)) __think(t_philo *philo)
 {
 	philo_log(THINK, philo);
 	// ft_usleep(100000, philo->table);
 }
 
-void philo_log(t_philo_op opcode, t_philo *philo)
+void philo_log(t_opcode opcode, t_philo *philo)
 {
 	__lock(&(philo->table->iomtx));
 	if (!dinner_finished(philo->table))
@@ -79,7 +78,7 @@ void philo_log(t_philo_op opcode, t_philo *philo)
 	__unlock(&(philo->table->iomtx));
 }
 
-void __sleep(t_philo *philo)
+static void __attribute__((always_inline)) __sleep(t_philo *philo)
 {
 	ft_usleep(philo->table->time_to_sleep, philo->table);
 	philo_log(SLEEP, philo);	
@@ -87,15 +86,13 @@ void __sleep(t_philo *philo)
 
 static void	__desync(t_philo *philo)
 {
-	if (philo->table->num_of_philos % 2 == 0)
+	if (philo->table->num_of_philos % 2 == 0 && (philo->id % 2 == 0))
 	{
-		if (philo->id % 2 == 0)
-			ft_usleep(30000, philo->table);
+		ft_usleep(30000, philo->table);
 	}
-	else
+	else if (philo->table->num_of_philos % 2 != 0 && (philo->id % 2 != 0))
 	{
-		if (philo->id % 2)
-			__think(philo);
+		__think(philo);
 	}
 }	
 
@@ -110,7 +107,7 @@ void *philo_routine(void *data)
 
 	__desync(philo);
 
-	while (0 == get_val(&philo->mtx, &philo->full) && !dinner_finished(philo->table))
+	while (!get_val(&philo->mtx, &philo->full) && !dinner_finished(philo->table))
 	{
 		__eat(philo);
 
@@ -136,11 +133,11 @@ void *observer_routine(void * data)
 		int i = 0;
 		while (i < table->num_of_philos && !dinner_finished(table))
 		{
-			if (0 == get_val(&table->mtx, &(table->philos_arr[i].full)) && get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)) > (table->time_to_die / MILLISECOND))
+			if (false == get_val(&table->mtx, &(table->philos_arr[i].full)) && get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)) > (table->time_to_die / MILLISECOND))
 			{
 				philo_log(DIE, &table->philos_arr[i]);
-				set_val(&table->mtx, &table->end_sim, 1);
-				set_val(&table->mtx, &table->philos_arr[i].dead, 1);
+				set_val(&table->mtx, &table->end_sim, true);
+				set_val(&table->mtx, &table->philos_arr[i].dead, true);
 			}
 			i++;
 		}

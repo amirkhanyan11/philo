@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/20 14:56:53 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:07:04 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@ void	*ft_malloc(size_t n)
 
 static void	__mutex_err(int status)
 {
-	if (0 == status)
-		return ;
 	if (EINVAL == status)
 		__exit("The value specified by mutex is invalid");
 	else if (EDEADLK == status)
@@ -40,10 +38,8 @@ static void	__mutex_err(int status)
 		__exit("Mutex is busy");
 }
 
-static void	__thread_err(int status, t_opcode opcode) // ??
+static void	__thread_err(int status, t_opcode opcode)
 {
-	if (0 == status)
-		return ;
 	if (EAGAIN == status)
 		__exit("No resources to create another thread");
 	else if (EPERM == status)
@@ -59,17 +55,17 @@ static void	__thread_err(int status, t_opcode opcode) // ??
 		__exit("A deadlock was detected or the value of thread specifies the calling thread.");
 }
 
-void __lock(pthread_mutex_t *mutex)
+void __lock(t_mutex *mutex)
 {
 	safe_mutex_op(mutex, LOCK);
 }
 
-void __unlock(pthread_mutex_t *mutex)
+void __unlock(t_mutex *mutex)
 {
 	safe_mutex_op(mutex, UNLOCK);
 }
 
-void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode)
+void	safe_mutex_op(t_mutex *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
 		__mutex_err(pthread_mutex_lock(mutex));
@@ -81,9 +77,9 @@ void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode)
 		__mutex_err(pthread_mutex_destroy(mutex));
 }
 
-long	get_val(pthread_mutex_t *mutex, long *value)
+t_value	get_val(t_mutex *mutex, t_value *value)
 {
-	long	ret;
+	t_value	ret;
 
 	__lock(mutex);
 	ret = *value;
@@ -91,21 +87,21 @@ long	get_val(pthread_mutex_t *mutex, long *value)
 	return (ret);
 }
 
-void	set_val(pthread_mutex_t *mutex, long *dest, long value)
+void	set_val(t_mutex *mutex, t_value *dest, t_value value)
 {
 	__lock(mutex);
 	*dest = value;
 	__unlock(mutex);
 }
 
-void	inc_val(pthread_mutex_t *mutex, long *val)
+void	inc_val(t_mutex *mutex, t_value *val)
 {
 	__lock(mutex);
 	++(*val);
 	__unlock(mutex);
 }
 
-int	check_equality(pthread_mutex_t *mutex, long *lhv, long rhv)
+int	check_equality(t_mutex *mutex, t_value *lhv, t_value rhv)
 {
 	int res;
 	

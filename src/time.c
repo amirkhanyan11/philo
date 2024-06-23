@@ -6,14 +6,14 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:58:31 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/16 16:32:24 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 19:56:54 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
 
-long get_time(t_time_code time_code)
+t_value get_time(t_time_code time_code)
 {
 	struct timeval tv;
 	if (gettimeofday(&tv, NULL) != 0)
@@ -29,14 +29,14 @@ long get_time(t_time_code time_code)
 	return -1;
 }
 
-void	ft_usleep(long sec, t_table *table)
+void	ft_usleep(t_value sec, t_table *table)
 {
-	long	start;
+	t_value	start;
 
 	start = get_time(MICROSECOND);
 	while (sec > (get_time(MICROSECOND) - start) && !dinner_finished(table))
 	{
-		long rem = sec - get_time(MICROSECOND) + start;
+		t_value rem = sec - get_time(MICROSECOND) + start;
 		if (rem > MILLISECOND * 10)
 			usleep(rem / 2);
 		else

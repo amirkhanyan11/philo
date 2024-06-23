@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 18:10:21 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 19:50:37 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,10 @@ void __begin(t_table * table)
 	}
 	safe_thread_op(&(table->observer), observer_routine, table, CREATE);
 
-	// notify that all threads are ready
 	table->start_sim = get_time(MILLISECOND);
-	set_val(&table->mtx, &table->all_set, 1);
+	
+	// notify that all threads are ready
+	set_val(&table->mtx, &table->all_set, true);
 
 	i = 0;
 	while (i < table->num_of_philos)
@@ -61,13 +62,13 @@ void __begin(t_table * table)
 	set_val(&table->mtx, &table->end_sim, 1);
 	safe_thread_op(&(table->observer), NULL, NULL, JOIN);
 
-	int flag = 0;
+	int flag = false;
 	i = 0;
 	while (i < table->num_of_philos)
 	{
-		if (table->philos_arr[i].dead == 1)
+		if (table->philos_arr[i].dead == true)
 		{
-			flag = 1;
+			flag = true;
 			break;
 		}
 		i++;
@@ -85,6 +86,7 @@ int main(int ac, char **av)
 	t_table *table = table_init(ac, av);
 	
 	__begin(table);
+	
 	$t_table(table);
 	
 	return 0;

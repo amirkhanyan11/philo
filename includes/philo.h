@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 18:18:20 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:03:11 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 #include <limits.h>
 #include <string.h>
 #include <sys/time.h>
+#include <stdbool.h>
 
 #define bad_value LONG_MAX
 #define __number_of_philosophers 1
@@ -41,9 +42,12 @@
 typedef struct s_philo t_philo;
 typedef struct s_fork t_fork;
 typedef struct s_table t_table;
-typedef struct timeval timeval_t;
+typedef struct timeval t_timeval;
 typedef struct s_waiter t_waiter;
 typedef void *(*t_fptr)(void *);
+typedef pthread_mutex_t t_mutex;
+typedef long t_value;
+typedef struct s_optional t_optional;
 
 
 typedef enum e_opcode
@@ -55,6 +59,12 @@ typedef enum e_opcode
 	CREATE,
 	JOIN,
 	DETACH,
+	
+	EAT,
+	SLEEP,
+	THINK,
+	TAKE_FORK,
+	DIE,
 }			t_opcode;
 
 typedef enum e_time_code
@@ -64,22 +74,11 @@ typedef enum e_time_code
 	MICROSECOND = 1000000,
 }		t_time_code;
 
-typedef enum e_me
-{
-	EAT,
-	SLEEP,
-	THINK,
-	TAKE_FORK,
-	DIE,
-}			t_philo_op;
-
-
 enum
 {
 	left = 0,
 	right = 1
 };
-
 
 
 // funcs
@@ -92,76 +91,81 @@ void 	__exit(char const * const err);
 void 	forks_destroy(t_table *table);
 void 	waiter_init(t_table *table);
 
-void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode);
+void	safe_mutex_op(t_mutex *mutex, t_opcode opcode);
 void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode);
 void	*ft_malloc(size_t n);
-void 	__lock(pthread_mutex_t *mutex);
-void 	__unlock(pthread_mutex_t *mutex);
+void 	__lock(t_mutex *mutex);
+void 	__unlock(t_mutex *mutex);
 
 
 void 	*philo_routine(void *data);
 void 	*w_routine(void *data);
-void	set_val(pthread_mutex_t *mutex, long *dest, long value);
-long	get_val(pthread_mutex_t *mutex, long *value);
+void	set_val(t_mutex *mutex, t_value *dest, t_value value);
+t_value	get_val(t_mutex *mutex, t_value *value);
 void	wait4all(t_table *table);
 int 	dinner_finished(t_table * table);
-void	ft_usleep(long sec, t_table *table);
-void	philo_log(t_philo_op opcode, t_philo *philo);
-long 	get_time(t_time_code time_code);
+void	ft_usleep(t_value sec, t_table *table);
+void	philo_log(t_opcode opcode, t_philo *philo);
+t_value 	get_time(t_time_code time_code);
 void	*observer_routine(void * data);
-void	inc_val(pthread_mutex_t *mutex, long *val);
-int		check_equality(pthread_mutex_t *mutex, long *lhv, long rhv);
+void	inc_val(t_mutex *mutex, t_value *val);
+int		check_equality(t_mutex *mutex, t_value *lhv, t_value rhv);
+t_optional make_optional();
 
 void 	$t_table(t_table *table);
 
-
-typedef struct s_fork
+struct s_optional
 {
-	pthread_mutex_t mtx;
-	int id;
-} t_fork;
+	t_value value;
+	bool has_value;
+};
 
-typedef struct s_philo
+struct s_fork
+{
+	t_mutex mtx;
+	int id;
+};
+
+struct s_philo
 {
 	pthread_t tid;
-	pthread_mutex_t mtx;
+	t_mutex mtx;
 	int id;
 
-	long time_last_meal;
-	long meal_count;
-	long full;
+	t_value time_last_meal;
+	t_value meal_count;
+	t_value full;
 
 	t_table *table;
-	long dead;
+	t_value dead;
 
 	t_fork *forks[2];
-}	t_philo;
+};
 
 
-typedef struct s_table
+struct s_table
 {
-	long num_of_philos;
-	long times_each_eat; // optional
-	long start_sim;
-	long end_sim;
-	long active_threads;
+	t_value num_of_philos;
+	t_value times_each_eat; // optional
+	t_value start_sim;
+	t_value end_sim;
+	t_value active_threads;
 
-	long time_to_die;
-	long time_to_eat;
-	long time_to_sleep;
+	t_value time_to_die;
+	t_value time_to_eat;
+	t_value time_to_sleep;
 	
-	pthread_mutex_t mtx;
-	pthread_mutex_t iomtx;
+	t_mutex mtx;
+	t_mutex iomtx;
 	pthread_t observer;
 
 
-	long all_set; // x
+	t_value all_set; 
 
-	t_waiter *waiter;
 	t_philo *philos_arr;
 	t_fork *forks_arr;
 
-} t_table;
+};
 
 
 #endif // PHILO_H

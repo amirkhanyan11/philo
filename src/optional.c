@@ -1,21 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   __exit.c                                           :+:      :+:    :+:   */
+/*   optional.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/27 18:02:29 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 19:36:42 by aamirkha         ###   ########.fr       */
+/*   Created: 2024/06/23 20:03:33 by aamirkha          #+#    #+#             */
+/*   Updated: 2024/06/23 20:05:13 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-void __attribute__((noreturn)) __exit(char const * const err)
+t_optional make_optional(void)
 {
-	if (NULL != err)
-		printf("./philo: %s\n", err);
-	exit (EXIT_FAILURE);
+    t_optional obj;
+    obj.has_value = false;
+    obj.value = -1;
+    return obj;
 }
