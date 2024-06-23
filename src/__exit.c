@@ -6,12 +6,11 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:29 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 19:36:42 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:46:08 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 void __attribute__((noreturn)) __exit(char const * const err)
 {

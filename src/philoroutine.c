@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 19:58:50 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:54:55 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void __eat(t_philo *philo)
 	philo_log(EAT, philo);
 	ft_usleep(philo->table->time_to_eat, philo->table);
 
-	if (philo->table->times_each_eat > 0 && philo->meal_count == philo->table->times_each_eat)
+	if (has_value(&philo->table->times_each_eat) && value(&philo->table->times_each_eat) > 0 && philo->meal_count == value(&philo->table->times_each_eat))
 		set_val(&(philo->mtx), &(philo->full), 1);
 
 	__unlock(&(philo->forks[second]->mtx));
@@ -50,28 +50,28 @@ void philo_log(t_opcode opcode, t_philo *philo)
 	{
 		if (TAKE_FORK == opcode)
 		{
-			printf("%ld %d has taken a fork\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+			printf("%ld %ld has taken a fork\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 		}
 		else if (EAT == opcode)
 		{
 			printf(PURPLE);
-			printf("%ld %d is eating\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+			printf("%ld %ld is eating\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 			printf(RESET);
 		}
 		else if (SLEEP == opcode)
 		{
 			// printf(CYAN);
-			printf("%ld %d is sleeping\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+			printf("%ld %ld is sleeping\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 			// printf(RESET);
 		}
 		else if (THINK == opcode)
 		{
-			printf("%ld %d is thinking\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+			printf("%ld %ld is thinking\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 		}
 		else if (DIE == opcode)
 		{
 			printf(RED);
-			printf("%ld %d died\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
+			printf("%ld %ld died\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 			printf(RESET);
 		}
 	}

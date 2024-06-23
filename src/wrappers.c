@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 20:07:04 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:25:17 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	*ft_malloc(size_t n)
 	return (ptr);
 }
 
-static void	__mutex_err(int status)
+void	__mutex_err(int status)
 {
 	if (EINVAL == status)
 		__exit("The value specified by mutex is invalid");
@@ -38,44 +38,6 @@ static void	__mutex_err(int status)
 		__exit("Mutex is busy");
 }
 
-static void	__thread_err(int status, t_opcode opcode)
-{
-	if (EAGAIN == status)
-		__exit("No resources to create another thread");
-	else if (EPERM == status)
-		__exit("The caller does not have appropriate permission\n");
-	else if (EINVAL == status && CREATE == opcode)
-		__exit("The value specified by attr is invalid.");
-	else if (EINVAL == status && (JOIN == opcode || DETACH == opcode))
-		__exit("The value specified by thread is not joinable\n");
-	else if (ESRCH == status)
-		__exit("No thread could be found corresponding to that"
-			"specified by the given thread ID, thread.");
-	else if (EDEADLK == status)
-		__exit("A deadlock was detected or the value of thread specifies the calling thread.");
-}
-
-void __lock(t_mutex *mutex)
-{
-	safe_mutex_op(mutex, LOCK);
-}
-
-void __unlock(t_mutex *mutex)
-{
-	safe_mutex_op(mutex, UNLOCK);
-}
-
-void	safe_mutex_op(t_mutex *mutex, t_opcode opcode)
-{
-	if (LOCK == opcode)
-		__mutex_err(pthread_mutex_lock(mutex));
-	else if (UNLOCK == opcode)
-		__mutex_err(pthread_mutex_unlock(mutex));
-	else if (INIT == opcode)
-		__mutex_err(pthread_mutex_init(mutex, NULL));
-	else if (DESTROY == opcode)
-		__mutex_err(pthread_mutex_destroy(mutex));
-}
 
 t_value	get_val(t_mutex *mutex, t_value *value)
 {
@@ -112,19 +74,10 @@ int	check_equality(t_mutex *mutex, t_value *lhv, t_value rhv)
 	return res;
 }
 
-int dinner_finished(t_table * table)
+bool dinner_finished(t_table * table)
 {
 	return get_val(&(table->mtx), &(table->end_sim));
 }
 
-void	safe_thread_op(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
-{
-	if (CREATE == opcode)
-		__thread_err(pthread_create(thread, NULL, f, data), opcode);
-	else if (JOIN == opcode)
-		__thread_err(pthread_join(*thread, NULL), opcode);
-	else if (DETACH == opcode)
-		__thread_err(pthread_detach(*thread), opcode);
-}
 
 

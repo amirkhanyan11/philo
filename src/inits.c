@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 19:37:12 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:45:51 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ t_table *table_init(int ac, char **av)
 
 	table->num_of_philos = matoi(av[__number_of_philosophers]);
 	if (ac == 6)
-		table->times_each_eat = matoi(av[__number_of_times_each_philosopher_must_eat]);
+		set_optional(&table->times_each_eat, matoi(av[__number_of_times_each_philosopher_must_eat]));
 	else
-		table->times_each_eat = -1;
+		table->times_each_eat = make_optional();
 
 
 	table->time_to_die = matoi(av[__time_to_die]) * MILLISECOND;
@@ -32,8 +32,8 @@ t_table *table_init(int ac, char **av)
 	table->all_set = false;
 	table->active_threads = 0;
 
-	safe_mutex_op(&table->mtx, INIT);
-	safe_mutex_op(&table->iomtx, INIT);
+	__init(&table->mtx);
+	__init(&table->iomtx);
 	forks_init(table);
 	philos_init(table);
 
@@ -52,7 +52,7 @@ void philos_init(t_table * table)
 		table->philos_arr[i].forks[left] = &(table->forks_arr[i]);
 		table->philos_arr[i].forks[right] = &(table->forks_arr[(table->num_of_philos + i - 1) % table->num_of_philos]); // uuuu jenerig
 
-		safe_mutex_op(&(table->philos_arr[i].mtx), INIT);
+		__init(&(table->philos_arr[i].mtx));
 
 		table->philos_arr[i].time_last_meal = INT_MAX;
 		table->philos_arr[i].dead = 0;
@@ -69,7 +69,7 @@ void forks_init(t_table * table)
 	int i = 0;
 	while (i < table->num_of_philos)
 	{
-		safe_mutex_op(&(table->forks_arr[i].mtx), INIT);
+		__init(&(table->forks_arr[i].mtx));
 		table->forks_arr[i].id = i;
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 19:50:37 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 20:52:03 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void __begin(t_table * table)
 {
 	int i = 0;
 
-	if (0 == table->times_each_eat) return ;
+	if (has_value(&table->times_each_eat) && value(&table->times_each_eat) == 0) return ;
 
 	if (table->num_of_philos == 1)
 	{
-		safe_thread_op(&(table->philos_arr[0].tid), foo, &(table->philos_arr[0]), CREATE);
+		thread_wrapper(&(table->philos_arr[0].tid), foo, &(table->philos_arr[0]), CREATE);
 	}
 
 	else
@@ -40,11 +40,11 @@ void __begin(t_table * table)
 		while (i < table->num_of_philos)
 		{
 			// create threads
-			safe_thread_op(&(table->philos_arr[i].tid), philo_routine, &(table->philos_arr[i]), CREATE);
+			__create(&(table->philos_arr[i].tid), philo_routine, &(table->philos_arr[i]));
 			i++;
 		}
 	}
-	safe_thread_op(&(table->observer), observer_routine, table, CREATE);
+	__create(&(table->observer), observer_routine, table);
 
 	table->start_sim = get_time(MILLISECOND);
 	
@@ -55,12 +55,12 @@ void __begin(t_table * table)
 	while (i < table->num_of_philos)
 	{
 		// join all threads
-		safe_thread_op(&(table->philos_arr[i].tid), NULL, NULL, JOIN);
+		__join(&(table->philos_arr[i].tid));
 		i++;
 	}
 
-	set_val(&table->mtx, &table->end_sim, 1);
-	safe_thread_op(&(table->observer), NULL, NULL, JOIN);
+	set_val(&table->mtx, &table->end_sim, true);
+	__join(&(table->observer));
 
 	int flag = false;
 	i = 0;
@@ -73,7 +73,9 @@ void __begin(t_table * table)
 		}
 		i++;
 	}
+	printf(YELLOW);
 	if (!flag)	printf("Everyone is full and happy!\nEach had %ld meals\n", table->philos_arr->meal_count);
+	printf(RESET);
 	
 }
 
