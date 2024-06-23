@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/20 15:26:17 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:11:47 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void eat(t_philo *philo)
 void think(t_philo *philo)
 {
 	philo_log(THINK, philo);
-	ft_usleep(100000, philo->table);
+	// ft_usleep(100000, philo->table);
 }
 
 void philo_log(t_philo_op opcode, t_philo *philo)
@@ -113,6 +113,7 @@ void *ob_routine(void * data)
 			{
 				philo_log(DIE, &table->philos_arr[i]);
 				set_val(&table->mtx, &table->end_sim, 1);
+				set_val(&table->mtx, &table->philos_arr[i].dead, 1);
 			}
 			// printf("Dinner finished : %ld : %ld\n", get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)), table->philos_arr[i].time_to_die);
 			i++;

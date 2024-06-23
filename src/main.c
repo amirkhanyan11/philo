@@ -6,12 +6,11 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/20 15:32:33 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:28:55 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
 
 void *foo(void *data)
 {
@@ -44,15 +43,12 @@ void __begin(t_table * table)
 		}
 	}
 
-
-
 	// notify that all threads are ready
 	set_val(&table->mtx, &table->start_sim, get_time(MILLISECOND));
 	set_val(&table->mtx, &table->all_set, 1);
 	safe_thread_op(&(table->observer), ob_routine, table, CREATE);
 
 	// printf ("time mime : %ld\n", get_time(MILLISECOND) - get_val(&table->mtx, &table->start_sim));
-
 
 	i = 0;
 	while (i < table->num_of_philos)
@@ -64,8 +60,19 @@ void __begin(t_table * table)
 	set_val(&table->mtx, &table->end_sim, 1);
 	safe_thread_op(&(table->observer), NULL, NULL, JOIN);
 
-	// printf("Everyone is full and happy!\n");
-
+	int flag = 0;
+	i = 0;
+	while (i < table->num_of_philos)
+	{
+		if (table->philos_arr[i].dead == 1)
+		{
+			flag = 1;
+			break;
+		}
+		i++;
+	}
+	if (!flag)	printf("Everyone is full and happy!\nEach had %ld meals\n", table->philos_arr->meal_count);
+	
 }
 
 
@@ -83,7 +90,7 @@ int main(int ac, char **av)
 	// }
 
 	__begin(table);
-
-	table_destroy(table);
+	$t_table(table);
+	
 	return 0;
 }

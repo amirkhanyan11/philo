@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/20 14:57:07 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 16:56:46 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ void 	forks_init(t_table * table);
 t_table *table_init(int ac, char **av);
 void 	philos_init(t_table * table, char **av);
 void 	__exit(char const * const err);
-void 	table_destroy(t_table *table);
 void 	forks_destroy(t_table *table);
-void 	philos_destroy(t_table *table);
 void 	waiter_init(t_table *table);
 
 void	safe_mutex_op(pthread_mutex_t *mutex, t_opcode opcode);
@@ -107,6 +105,7 @@ void	*ob_routine(void * data);
 void	inc_val(pthread_mutex_t *mutex, long *val);
 int		check_equality(pthread_mutex_t *mutex, long *lhv, long rhv);
 
+void 	$t_table(t_table *table);
 
 
 typedef struct s_fork

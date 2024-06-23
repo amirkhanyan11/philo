@@ -6,17 +6,11 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/20 14:26:53 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/23 17:07:43 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-
-// static int _is_correct_table(t_table *table)
-// {
-// 	// > 0 esh
-// 	return (table->num_of_philos && table->time_to_die && table->time_to_eat && table->time_to_sleep && table->times_each_eat);
-// }
 
 t_table *table_init(int ac, char **av)
 {
