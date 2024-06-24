@@ -74,7 +74,7 @@ void __begin(t_table * table)
 		i++;
 	}
 	printf(YELLOW);
-	if (!flag)	printf("Everyone is full and happy!\nEach had %ld meals\n", table->philos_arr->meal_count);
+	if (!flag)	printf("Everyone is full and happy!\nEach philo had %ld meals\n", table->philos_arr->meal_count);
 	printf(RESET);
 	
 }

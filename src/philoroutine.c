@@ -25,13 +25,17 @@ void __eat(t_philo *philo)
 	__lock(&(philo->forks[second]->mtx));
 	philo_log(TAKE_FORK, philo);
 
-	set_val(&(philo->mtx), &(philo->time_last_meal), get_time(MILLISECOND));
+	// set_val(&(philo->mtx), &(philo->time_last_meal), get_time(MILLISECOND));
+
+	philo->time_last_meal = get_time(MILLISECOND);
+
 	philo->meal_count++;
 	philo_log(EAT, philo);
 	ft_usleep(philo->table->time_to_eat, philo->table);
 
 	if (has_value(&philo->table->times_each_eat) && philo->meal_count == value(&philo->table->times_each_eat))
-		set_val(&(philo->mtx), &(philo->full), 1);
+		philo->full = true;
+		// set_val(&(philo->mtx), &(philo->full), true);
 
 	__unlock(&(philo->forks[second]->mtx));
 	__unlock(&(philo->forks[first]->mtx));
@@ -54,7 +58,7 @@ void philo_log(t_opcode opcode, t_philo *philo)
 		}
 		else if (EAT == opcode)
 		{
-			printf(PURPLE);
+			printf(CYAN);
 			printf("%ld %ld is eating\n", get_time(MILLISECOND) - philo->table->start_sim, philo->id);
 			printf(RESET);
 		}
@@ -80,8 +84,8 @@ void philo_log(t_opcode opcode, t_philo *philo)
 
 static void  __sleep(t_philo *philo)
 {
-	ft_usleep(philo->table->time_to_sleep, philo->table);
 	philo_log(SLEEP, philo);	
+	ft_usleep(philo->table->time_to_sleep, philo->table);
 }
 
 static void	__desync(t_philo *philo)
@@ -119,6 +123,14 @@ void *philo_routine(void *data)
 	return data;
 }
 
+bool is_dead(t_philo *philo)
+{
+	if (get_val(&philo->mtx, &(philo->full)) == true) return false;
+
+	t_value elapsed = get_time(MILLISECOND) - get_val(&philo->mtx, &(philo->time_last_meal));
+
+	return elapsed > (get_val(&(philo->table->mtx), &(philo->table->time_to_die)) / MILLISECOND);
+}
 
 void *observer_routine(void * data)
 {
@@ -126,14 +138,12 @@ void *observer_routine(void * data)
 
 	while (0 == check_equality(&table->mtx, &table->active_threads, table->num_of_philos));
 
-	// printf("ready : %ld\n", get_val(&table->mtx, &table->active_threads));
-
 	while (!dinner_finished(table))
 	{
 		int i = 0;
 		while (i < table->num_of_philos && !dinner_finished(table))
-		{
-			if (false == get_val(&table->mtx, &(table->philos_arr[i].full)) && get_time(MILLISECOND) - get_val(&table->mtx, &(table->philos_arr[i].time_last_meal)) > (table->time_to_die / MILLISECOND))
+		{	
+			if (is_dead(table->philos_arr + i))
 			{
 				philo_log(DIE, &table->philos_arr[i]);
 				set_val(&table->mtx, &table->end_sim, true);

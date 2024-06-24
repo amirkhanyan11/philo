@@ -29,7 +29,7 @@ t_table *table_init(int ac, char **av)
 	table->num_of_philos = value(&num_of_philos);
 	if (ac == 6)
 	{
-		t_optional times_each_eat =  matoi(av[__number_of_times_each_philosopher_must_eat]);
+		t_optional times_each_eat = matoi(av[__number_of_times_each_philosopher_must_eat]);
 		set_optional(&table->times_each_eat, value(&times_each_eat));
 	}
 	else
@@ -41,10 +41,9 @@ t_table *table_init(int ac, char **av)
 	table->time_to_sleep = value(&time_to_sleep) * MILLISECOND;
 	
 
-
-	table->start_sim = 0;
 	table->end_sim = false;
 	table->all_set = false;
+	table->start_sim = 0;
 	table->active_threads = 0;
 
 	__init(&table->mtx);
@@ -69,7 +68,7 @@ void philos_init(t_table * table)
 
 		__init(&(table->philos_arr[i].mtx));
 
-		table->philos_arr[i].time_last_meal = INT_MAX;
+		table->philos_arr[i].time_last_meal = 0;
 		table->philos_arr[i].dead = 0;
 		table->philos_arr[i].full = 0;
 		table->philos_arr[i].meal_count = 0;
