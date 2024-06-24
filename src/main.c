@@ -16,7 +16,7 @@ void *foo(void *data)
 {
 	t_philo *philo = (t_philo*)data;
 
-	wait4all(philo->table);
+	wait_for_other_philos(philo->table);
 	set_val(&philo->table->mtx, &philo->time_last_meal, get_time(MILLISECOND));
 	inc_val(&(philo->table->mtx), &(philo->table->active_threads));
 	philo_log(TAKE_FORK, philo);

@@ -106,7 +106,7 @@ void 		*philo_routine(void *data);
 void 		*w_routine(void *data);
 void		set_val(t_mutex *mutex, t_value *dest, t_value value);
 t_value		get_val(t_mutex *mutex, t_value *value);
-void		wait4all(t_table *table);
+void		wait_for_other_philos(t_table *table);
 bool 		dinner_finished(t_table * table);
 void		ft_usleep(t_value sec, t_table *table);
 void		philo_log(t_opcode opcode, t_philo *philo);

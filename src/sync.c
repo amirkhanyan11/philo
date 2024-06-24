@@ -13,7 +13,7 @@
 #include "philo.h"
 
 
-void wait4all(t_table *table)
+void wait_for_other_philos(t_table *table)
 {
 	while (true != get_val(&(table->mtx), &(table->all_set)));
 }

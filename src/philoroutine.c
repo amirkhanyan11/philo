@@ -103,7 +103,7 @@ static void	__desync(t_philo *philo)
 void *philo_routine(void *data)
 {
 	t_philo * philo = (t_philo *)data;
-	wait4all(philo->table);
+	wait_for_other_philos(philo->table);
 
 	set_val(&philo->table->mtx, &philo->time_last_meal, get_time(MILLISECOND));
 
