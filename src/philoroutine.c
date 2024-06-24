@@ -92,7 +92,7 @@ static void	__desync(t_philo *philo)
 {
 	if (philo->table->num_of_philos % 2 == 0 && (philo->id % 2 == 0))
 	{
-		ft_usleep(30000, philo->table);
+		ft_usleep(30 * MILLISECOND, philo->table);
 	}
 	else if (philo->table->num_of_philos % 2 != 0 && (philo->id % 2 != 0))
 	{
