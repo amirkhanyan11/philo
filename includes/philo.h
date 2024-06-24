@@ -32,6 +32,7 @@
 
 #define PHILO_MAX 200
 #define TIME_MIN 100
+#define FORK_MAX 2
 
 #define PURPLE "\033[1;35m"
 #define CYAN "\033[1;36m"
@@ -47,12 +48,12 @@ typedef struct s_fork t_fork;
 typedef struct s_table t_table;
 typedef struct timeval t_timeval;
 typedef struct s_waiter t_waiter;
-typedef void *(*t_fptr)(void *);
-typedef pthread_mutex_t t_mutex;
-typedef long t_value;
 typedef struct s_optional t_optional;
 
-// traits
+typedef pthread_mutex_t t_mutex;
+typedef long t_value;
+
+typedef void *(*t_fptr)(void *);
 typedef bool (*t_optional_predicate) (const t_optional *obj);
 
 
@@ -96,9 +97,9 @@ void 		forks_destroy(t_table *table);
 void 		waiter_init(t_table *table);
 void		mutex_wrapper(t_mutex *mutex, t_opcode opcode);
 void		thread_wrapper(pthread_t *thread, t_fptr f, void *data, t_opcode opcode);
-void		*ft_malloc(size_t n);
 void 		__lock(t_mutex *mutex);
 void 		__unlock(t_mutex *mutex);
+void		__attribute__((malloc))	*ft_malloc(size_t n);
 
 
 void 		*philo_routine(void *data);
@@ -116,24 +117,24 @@ int			check_equality(t_mutex *mutex, t_value *lhv, t_value rhv);
 void		__mutex_err(int status);
 void 		$t_table(t_table *table);
 
-void  __lock(t_mutex *mutex);
-void  __unlock(t_mutex *mutex);
-void  __init(t_mutex *mutex);
-void  __destroy(t_mutex *mutex);
-void  __create(pthread_t *thread, t_fptr f, void *data);
-void  __join(pthread_t *thread);
-void  __detach(pthread_t *thread);
-void __attribute__((noreturn))		__exit(char const * const err);
+void  		__lock(t_mutex *mutex);
+void  		__unlock(t_mutex *mutex);
+void  		__init(t_mutex *mutex);
+void  		__destroy(t_mutex *mutex);
+void  		__create(pthread_t *thread, t_fptr f, void *data);
+void  		__join(pthread_t *thread);
+void 		__attribute__((unused))   __detach(pthread_t *thread);
+void 		__attribute__((noreturn))		__exit(char const * const err);
 
 
-bool  has_value(const t_optional *optional);
-bool    has_bad_timeval(const t_optional *optional);
-bool doesnt_have_value(const t_optional *optional);
+bool  		has_value(const t_optional *optional);
+bool    	has_bad_timeval(const t_optional *optional);
+bool 		doesnt_have_value(const t_optional *optional);
 t_value 	value(const t_optional *optional);
 t_value 	value_or(const t_optional *optional, t_value val);
 t_optional 	make_optional();
 void 		set_optional(t_optional *optional, t_value val);
-bool any_of(int argc, t_optional_predicate unary_predicate, ...);
+bool 		__attribute__((sentinel)) any_of(t_optional_predicate unary_predicate, ...);
 
 
 struct s_optional
@@ -158,7 +159,7 @@ struct s_philo
 	t_value full;
 	t_table *table;
 	t_value dead;
-	t_fork *forks[2];
+	t_fork *forks[FORK_MAX];
 };
 
 

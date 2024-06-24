@@ -56,24 +56,24 @@ bool    has_bad_timeval(const t_optional *optional)
     return val < TIME_MIN;
 }
 
-bool any_of(int argc, t_optional_predicate unary_predicate, ...)
+
+bool __attribute__((sentinel))  any_of(t_optional_predicate unary_predicate, ...)
 {
     bool res = false;
-    t_optional current;
+    const t_optional *current;
 
     va_list arglist;
     va_start(arglist, unary_predicate);
 
-    while (argc > 0)
+    current = va_arg(arglist, t_optional*);
+    while (current != NULL)
     {
-        current = va_arg(arglist, t_optional);
-        if (unary_predicate(&current) == true)
+        if (unary_predicate(current) == true)
         {
-            // printf("%d\n", argc);
             res = true;
             break;
         }
-        argc--;
+        current = va_arg(arglist, t_optional*);
     }
 
     va_end(arglist);

@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	*ft_malloc(size_t n)
+void	__attribute__((malloc)) *ft_malloc(size_t n)
 {
 	void	*ptr;
 
@@ -37,7 +37,6 @@ void	__mutex_err(int status)
 	else if (EBUSY == status)
 		__exit("Mutex is busy");
 }
-
 
 t_value	get_val(t_mutex *mutex, t_value *value)
 {

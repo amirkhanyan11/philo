@@ -19,18 +19,22 @@ t_table *table_init(int ac, char **av)
 	t_optional time_to_eat = matoi(av[__time_to_eat]);
 	t_optional time_to_sleep = matoi(av[__time_to_sleep]);
 
-	if (any_of(4, doesnt_have_value, num_of_philos, time_to_die, time_to_sleep, time_to_eat) || any_of(3, has_bad_timeval, time_to_die, time_to_sleep, time_to_eat) || value(&num_of_philos) < 1 || value(&num_of_philos) > PHILO_MAX)
+	if (any_of(doesnt_have_value, &num_of_philos, &time_to_die, &time_to_sleep, &time_to_eat, NULL) || any_of(has_bad_timeval, &time_to_die, &time_to_sleep, &time_to_eat, NULL) || value(&num_of_philos) < 1 || value(&num_of_philos) > PHILO_MAX)
 	{
 		__exit("Bad argument values");
 	}
 
-	t_table *table = ft_malloc (sizeof(t_table));
+	t_table *table = ft_malloc(sizeof(t_table));
 
 	table->num_of_philos = value(&num_of_philos);
 	if (ac == 6)
 	{
 		t_optional times_each_eat = matoi(av[__number_of_times_each_philosopher_must_eat]);
 		set_optional(&table->times_each_eat, value(&times_each_eat));
+		if (value(&times_each_eat) < 0)
+		{
+			__exit("Bad argument values");
+		}
 	}
 	else
 		table->times_each_eat = make_optional();

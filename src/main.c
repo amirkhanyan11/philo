@@ -26,6 +26,10 @@ void *foo(void *data)
 
 void __begin(t_table * table)
 {
+	// int * ptr = NULL;
+	// int x = *ptr;
+
+	// (void)x;
 	int i = 0;
 
 	if (has_value(&table->times_each_eat) && value(&table->times_each_eat) == 0) return ;

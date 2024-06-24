@@ -49,7 +49,7 @@ void  __join(pthread_t *thread)
 	thread_wrapper(thread, NULL, NULL, JOIN);
 }
 
-void  __detach(pthread_t *thread)
+void  __attribute__((unused)) __detach(pthread_t *thread)
 {
 	thread_wrapper(thread, NULL, NULL, DETACH);
 }

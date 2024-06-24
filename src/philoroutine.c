@@ -12,6 +12,7 @@
 
 #include "philo.h"
 
+// __attribute__((no_sanitize_thread))
 void __eat(t_philo *philo)
 {
 	int first = left, second = right;
@@ -25,17 +26,16 @@ void __eat(t_philo *philo)
 	__lock(&(philo->forks[second]->mtx));
 	philo_log(TAKE_FORK, philo);
 
-	// set_val(&(philo->mtx), &(philo->time_last_meal), get_time(MILLISECOND));
+	set_val(&(philo->mtx), &(philo->time_last_meal), get_time(MILLISECOND));
 
-	philo->time_last_meal = get_time(MILLISECOND);
+	// philo->time_last_meal = get_time(MILLISECOND);
 
 	philo->meal_count++;
 	philo_log(EAT, philo);
 	ft_usleep(philo->table->time_to_eat, philo->table);
 
 	if (has_value(&philo->table->times_each_eat) && philo->meal_count == value(&philo->table->times_each_eat))
-		philo->full = true;
-		// set_val(&(philo->mtx), &(philo->full), true);
+		set_val(&(philo->mtx), &(philo->full), true);
 
 	__unlock(&(philo->forks[second]->mtx));
 	__unlock(&(philo->forks[first]->mtx));
