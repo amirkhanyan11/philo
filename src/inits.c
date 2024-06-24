@@ -14,18 +14,33 @@
 
 t_table *table_init(int ac, char **av)
 {
+	t_optional num_of_philos = matoi(av[__number_of_philosophers]);
+	t_optional time_to_die = matoi(av[__time_to_die]);
+	t_optional time_to_eat = matoi(av[__time_to_eat]);
+	t_optional time_to_sleep = matoi(av[__time_to_sleep]);
+
+	if (any_of(4, doesnt_have_value, num_of_philos, time_to_die, time_to_sleep, time_to_eat) || any_of(3, has_bad_timeval, time_to_die, time_to_sleep, time_to_eat) || value(&num_of_philos) < 1 || value(&num_of_philos) > PHILO_MAX)
+	{
+		__exit("Bad argument values");
+	}
+
 	t_table *table = ft_malloc (sizeof(t_table));
 
-	table->num_of_philos = matoi(av[__number_of_philosophers]);
+	table->num_of_philos = value(&num_of_philos);
 	if (ac == 6)
-		set_optional(&table->times_each_eat, matoi(av[__number_of_times_each_philosopher_must_eat]));
+	{
+		t_optional times_each_eat =  matoi(av[__number_of_times_each_philosopher_must_eat]);
+		set_optional(&table->times_each_eat, value(&times_each_eat));
+	}
 	else
 		table->times_each_eat = make_optional();
 
 
-	table->time_to_die = matoi(av[__time_to_die]) * MILLISECOND;
-	table->time_to_eat = matoi(av[__time_to_eat]) * MILLISECOND;
-	table->time_to_sleep = matoi(av[__time_to_sleep]) * MILLISECOND;
+	table->time_to_die = value(&time_to_die) * MILLISECOND;
+	table->time_to_eat = value(&time_to_eat) * MILLISECOND;
+	table->time_to_sleep = value(&time_to_sleep) * MILLISECOND;
+	
+
 
 	table->start_sim = 0;
 	table->end_sim = false;

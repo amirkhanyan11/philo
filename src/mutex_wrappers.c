@@ -24,22 +24,22 @@ void	mutex_wrapper(t_mutex *mutex, t_opcode opcode)
 		__mutex_err(pthread_mutex_destroy(mutex));
 }
 
-void __attribute__((always_inline)) __lock(t_mutex *mutex)
+void  __lock(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, LOCK);
 }
 
-void __attribute__((always_inline)) __unlock(t_mutex *mutex)
+void  __unlock(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, UNLOCK);
 }
 
-void __attribute__((always_inline)) __init(t_mutex *mutex)
+void  __init(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, INIT);
 }
 
-void __attribute__((always_inline)) __destroy(t_mutex *mutex)
+void  __destroy(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, DESTROY);
 }

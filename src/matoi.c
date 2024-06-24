@@ -35,10 +35,11 @@ static long long _process(long long res, char const c)
 	return ((10 * res) + (c - '0'));
 }
 
-int matoi(char const * str)
+t_optional matoi(char const * str)
 {
-	long long res = 0;
+	long long num = 0;
 	short sign = 1;
+	t_optional res = make_optional();
 
 	_skip_whspaces(&str);
 
@@ -51,11 +52,12 @@ int matoi(char const * str)
 
 	while (*str && _is_digit(*str))
 	{
-		res = _process(res, *str);
+		num = _process(num, *str);
 		str++;
 	}
-	res *= sign;
-	if (res > INT_MAX || res < INT_MIN)
-		return 0;
-	return (int)(res);
+	num *= sign;
+	set_optional(&res, num);
+	if (num > INT_MAX || num < INT_MIN)
+		return make_optional();
+	return res;
 }

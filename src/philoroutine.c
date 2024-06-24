@@ -30,14 +30,14 @@ void __eat(t_philo *philo)
 	philo_log(EAT, philo);
 	ft_usleep(philo->table->time_to_eat, philo->table);
 
-	if (has_value(&philo->table->times_each_eat) && value(&philo->table->times_each_eat) > 0 && philo->meal_count == value(&philo->table->times_each_eat))
+	if (has_value(&philo->table->times_each_eat) && philo->meal_count == value(&philo->table->times_each_eat))
 		set_val(&(philo->mtx), &(philo->full), 1);
 
 	__unlock(&(philo->forks[second]->mtx));
 	__unlock(&(philo->forks[first]->mtx));
 }
 
-static void __attribute__((always_inline)) __think(t_philo *philo)
+static void  __think(t_philo *philo)
 {
 	philo_log(THINK, philo);
 	// ft_usleep(100000, philo->table);
@@ -78,7 +78,7 @@ void philo_log(t_opcode opcode, t_philo *philo)
 	__unlock(&(philo->table->iomtx));
 }
 
-static void __attribute__((always_inline)) __sleep(t_philo *philo)
+static void  __sleep(t_philo *philo)
 {
 	ft_usleep(philo->table->time_to_sleep, philo->table);
 	philo_log(SLEEP, philo);	

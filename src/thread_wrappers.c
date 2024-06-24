@@ -39,17 +39,17 @@ void	thread_wrapper(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
 		__thread_err(pthread_detach(*thread), opcode);
 }
 
-void __attribute__((always_inline)) __create(pthread_t *thread, t_fptr f, void *data)
+void  __create(pthread_t *thread, t_fptr f, void *data)
 {
 	thread_wrapper(thread, f, data, CREATE);
 }
 
-void __attribute__((always_inline)) __join(pthread_t *thread)
+void  __join(pthread_t *thread)
 {
 	thread_wrapper(thread, NULL, NULL, JOIN);
 }
 
-void __attribute__((always_inline)) __detach(pthread_t *thread)
+void  __detach(pthread_t *thread)
 {
 	thread_wrapper(thread, NULL, NULL, DETACH);
 }

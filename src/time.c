@@ -34,17 +34,7 @@ void	ft_usleep(t_value sec, t_table *table)
 	t_value	start;
 
 	start = get_time(MICROSECOND);
-	while (sec > (get_time(MICROSECOND) - start) && !dinner_finished(table))
-	{
-		t_value rem = sec - get_time(MICROSECOND) + start;
-		if (rem > MILLISECOND * 10)
-			usleep(rem / 2);
-		else
-		{
-			while(sec > (get_time(MICROSECOND) - start));
-		}
-	}
-
+	while (sec > (get_time(MICROSECOND) - start) && !dinner_finished(table));
 }
 
 

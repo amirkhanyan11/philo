@@ -83,7 +83,7 @@ void __begin(t_table * table)
 int main(int ac, char **av)
 {
 	if (ac != 6 && ac != 5)
-		__exit("Bad args :(\n");
+		__exit("Bad argument count");
 
 	t_table *table = table_init(ac, av);
 	

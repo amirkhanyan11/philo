@@ -13,13 +13,13 @@
 #include "philo.h"
 
 
-static void __attribute__((always_inline)) $t_fork(t_fork *fork)
+static void  $t_fork(t_fork *fork)
 {
 	__destroy(&fork->mtx);
 }
 
 
-static void __attribute__((always_inline)) $t_philo(t_philo *philo)
+static void  $t_philo(t_philo *philo)
 {
 	__destroy(&philo->mtx);
 }

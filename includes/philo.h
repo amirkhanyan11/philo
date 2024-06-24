@@ -22,13 +22,16 @@
 #include <string.h>
 #include <sys/time.h>
 #include <stdbool.h>
+#include <stdarg.h>
 
-#define bad_value LONG_MAX
 #define __number_of_philosophers 1
 #define __time_to_die 2
 #define __time_to_eat 3
 #define __time_to_sleep 4
 #define __number_of_times_each_philosopher_must_eat 5
+
+#define PHILO_MAX 200
+#define TIME_MIN 100
 
 #define PURPLE "\033[1;35m"
 #define CYAN "\033[1;36m"
@@ -48,6 +51,9 @@ typedef void *(*t_fptr)(void *);
 typedef pthread_mutex_t t_mutex;
 typedef long t_value;
 typedef struct s_optional t_optional;
+
+// traits
+typedef bool (*t_optional_predicate) (const t_optional *obj);
 
 
 typedef enum e_opcode
@@ -82,7 +88,7 @@ enum
 
 // funcs
 
-int 		matoi(char const * str);
+t_optional 		matoi(char const * str);
 void 		forks_init(t_table * table);
 t_table 	*table_init(int ac, char **av);
 void 		philos_init(t_table * table);
@@ -110,22 +116,24 @@ int			check_equality(t_mutex *mutex, t_value *lhv, t_value rhv);
 void		__mutex_err(int status);
 void 		$t_table(t_table *table);
 
-void __attribute__((always_inline)) __lock(t_mutex *mutex);
-void __attribute__((always_inline)) __unlock(t_mutex *mutex);
-void __attribute__((always_inline)) __init(t_mutex *mutex);
-void __attribute__((always_inline)) __destroy(t_mutex *mutex);
-void __attribute__((always_inline)) __create(pthread_t *thread, t_fptr f, void *data);
-void __attribute__((always_inline)) __join(pthread_t *thread);
-void __attribute__((always_inline)) __detach(pthread_t *thread);
+void  __lock(t_mutex *mutex);
+void  __unlock(t_mutex *mutex);
+void  __init(t_mutex *mutex);
+void  __destroy(t_mutex *mutex);
+void  __create(pthread_t *thread, t_fptr f, void *data);
+void  __join(pthread_t *thread);
+void  __detach(pthread_t *thread);
 void __attribute__((noreturn))		__exit(char const * const err);
 
 
-bool __attribute__((always_inline)) has_value(t_optional *optional);
-t_value 	value(t_optional *optional);
-t_value 	value_or(t_optional *optional, t_value val);
+bool  has_value(const t_optional *optional);
+bool    has_bad_timeval(const t_optional *optional);
+bool doesnt_have_value(const t_optional *optional);
+t_value 	value(const t_optional *optional);
+t_value 	value_or(const t_optional *optional, t_value val);
 t_optional 	make_optional();
 void 		set_optional(t_optional *optional, t_value val);
-
+bool any_of(int argc, t_optional_predicate unary_predicate, ...);
 
 
 struct s_optional
