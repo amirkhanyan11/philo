@@ -7,7 +7,7 @@ OBJSPATH = ./objs/
 SRCS = $(wildcard $(SRCSPATH)*.c)
 OBJS = $(patsubst $(SRCSPATH)%.c, $(OBJSPATH)%.o, $(SRCS))
 
-CC = gcc -std=c90
+CC = gcc
 DEBUG = -fsanitize=thread
 WFLAGS = -Wall -Wextra -Werror
 CFLAGS =  $(foreach H,$(INCPATH),-I$(H)) $(DEBUG)  $(WFLAGS)
