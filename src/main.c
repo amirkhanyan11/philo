@@ -94,6 +94,5 @@ int main(int ac, char **av)
 	__begin(table);
 	
 	$t_table(table);
-	
 	return 0;
 }
