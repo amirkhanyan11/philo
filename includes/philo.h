@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 17:42:11 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:14:04 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,12 @@
 # define __TIME_TO_EAT 3
 # define __TIME_TO_SLEEP 4
 # define __NUMBER_OF_TIMES_EACH_PHILOSOPHER_MUST_EAT 5
+# define __SUPER__SECRET__PROPORTION__ 2
+# define __ANOTHER_SUPER__SECRET__PROPORTION__ 30
 
 # define PHILO_MAX 200
 # define TIME_MIN 60
 # define FORK_MAX 2
-#define __SUPER__SECRET__PROPORTION__ 2
 
 typedef struct s_philo	t_philo;
 typedef struct s_fork	t_fork;

@@ -6,19 +6,21 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 17:42:47 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:14:22 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-inline void __attribute__((always_inline))	__think(t_philo *philo)
+inline void	__attribute__((always_inline)) __think(t_philo *philo)
 {
 	philo_log(THINK, philo);
-	ft_usleep((philo->table->time_to_eat * __SUPER__SECRET__PROPORTION__ - philo->table->time_to_sleep) / __SUPER__SECRET__PROPORTION__, philo->table);
+	ft_usleep((philo->table->time_to_eat * __SUPER__SECRET__PROPORTION__
+			- philo->table->time_to_sleep) / __SUPER__SECRET__PROPORTION__,
+		philo->table);
 }
 
-inline void __attribute__((always_inline))	__sleep(t_philo *philo)
+inline void	__attribute__((always_inline)) __sleep(t_philo *philo)
 {
 	philo_log(SLEEP, philo);
 	ft_usleep(philo->table->time_to_sleep, philo->table);
@@ -52,7 +54,7 @@ static void	__desync(t_philo *philo)
 {
 	if (philo->table->num_of_philos % 2 == 0 && (philo->id % 2 == 0))
 	{
-		ft_usleep(30 * MILLISECOND, philo->table);
+		ft_usleep(__ANOTHER_SUPER__SECRET__PROPORTION__ * MILLISECOND, philo->table);
 	}
 	else if (philo->table->num_of_philos % 2 != 0 && (philo->id % 2 != 0))
 	{
@@ -65,13 +67,10 @@ void	*philo_routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
-
 	wait_for_other_philos(philo->table);
-
 	set_val(&philo->table->mtx, &philo->time_last_meal, get_time(MILLISECOND));
 	inc_val(&(philo->table->mtx), &(philo->table->active_threads));
 	__desync(philo);
-
 	while (!get_val(&philo->mtx, &philo->full)
 		&& !dinner_finished(philo->table))
 	{
