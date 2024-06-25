@@ -6,18 +6,19 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:51:48 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 14:14:29 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void __log_itog(t_table * table)
+void	__log_itog(t_table *table)
 {
-	bool flag;
-	int i;
-	int meals = table->philos_arr->meal_count;
+	bool	flag;
+	int		i;
+	int		meals;
 
+	meals = table->philos_arr->meal_count;
 	flag = false;
 	i = 0;
 	while (i < table->num_of_philos)
@@ -27,19 +28,13 @@ void __log_itog(t_table * table)
 			flag = true;
 			break ;
 		}
-		else if (table->philos_arr[i].meal_count != meals)
-		{
-			printf(RED);
-			__exit("Something went wrong");
-			printf(RESET);
-		}
 		i++;
 	}
 	if (!flag)
 	{
 		printf(YELLOW);
-			printf("Everyone is full and happy!\nEach philo had %ld meals\n",
-				table->philos_arr->meal_count);
+		printf("Everyone is full and happy!\nEach philo had %ld meals\n",
+			table->philos_arr->meal_count);
 		printf(RESET);
 	}
 }
@@ -118,4 +113,3 @@ void	__attribute__((destructor)) moid(void)
 	system("leaks philo");
 }
 #endif // __APPLE__
-
