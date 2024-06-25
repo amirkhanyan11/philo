@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:15:48 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:42:47 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 inline void __attribute__((always_inline))	__think(t_philo *philo)
 {
 	philo_log(THINK, philo);
+	ft_usleep((philo->table->time_to_eat * __SUPER__SECRET__PROPORTION__ - philo->table->time_to_sleep) / __SUPER__SECRET__PROPORTION__, philo->table);
 }
 
 inline void __attribute__((always_inline))	__sleep(t_philo *philo)
@@ -64,10 +65,13 @@ void	*philo_routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
+
 	wait_for_other_philos(philo->table);
+
 	set_val(&philo->table->mtx, &philo->time_last_meal, get_time(MILLISECOND));
 	inc_val(&(philo->table->mtx), &(philo->table->active_threads));
 	__desync(philo);
+
 	while (!get_val(&philo->mtx, &philo->full)
 		&& !dinner_finished(philo->table))
 	{

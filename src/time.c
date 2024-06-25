@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:58:31 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 12:37:04 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:09:41 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,6 @@ t_value	get_time(t_time_code time_code)
 		return (tv.tv_sec * MILLISECOND + tv.tv_usec / MILLISECOND);
 	else if (MICROSECOND == time_code)
 		return (tv.tv_sec * MICROSECOND + tv.tv_usec);
-	else if (SECONDS == time_code)
-		return (tv.tv_sec + tv.tv_usec / MICROSECOND);
 	else
 		__exit("Bad time");
 	return (-1);

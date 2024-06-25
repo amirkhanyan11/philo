@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:33:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 16:02:53 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 16:28:59 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,15 @@ void	__begin(t_table *table)
 
 	if (has_value(&table->times_each_eat) && value(&table->times_each_eat) == 0)
 		return ;
+
 	__create_philos(table);
+
 	__create(&(table->observer), observer_routine, table);
+
 	table->start_sim = get_time(MILLISECOND);
+
 	set_val(&table->mtx, &table->all_set, true);
+	
 	i = 0;
 	while (i < table->num_of_philos)
 	{

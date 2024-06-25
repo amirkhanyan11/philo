@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 15:55:33 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 17:42:11 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define PHILO_MAX 200
 # define TIME_MIN 60
 # define FORK_MAX 2
+#define __SUPER__SECRET__PROPORTION__ 2
 
 typedef struct s_philo	t_philo;
 typedef struct s_fork	t_fork;
@@ -62,7 +63,6 @@ typedef enum e_opcode
 
 typedef enum e_time_code
 {
-	SECONDS,
 	MILLISECOND = 1000,
 	MICROSECOND = 1000000,
 }						t_time_code;
@@ -106,9 +106,9 @@ t_table					*table_init(int ac, char **av);
 bool					has_bad_timeval(const t_optional *optional);
 bool					dinner_finished(t_table *table);
 bool					doesnt_have_value(const t_optional *optional);
+bool					is_dead(t_philo *philo);
 bool					check_equality(t_mutex *mutex, t_value *lhv,
 							t_value rhv);
-bool					is_dead(t_philo *philo);
 
 struct					s_fork
 {
