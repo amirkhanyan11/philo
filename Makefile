@@ -11,9 +11,9 @@ OBJS = $(patsubst $(SRCSPATH)%.c, $(OBJSPATH)%.o, $(SRCS))
 
 
 CC = gcc
-DEBUG = #-fsanitize=thread
+DEBUG = -fsanitize=thread
 WFLAGS = -Wall -Wextra -Werror
-CFLAGS =  $(foreach H,$(INCPATH),-I$(H)) $(DEBUG)  $(WFLAGS)
+CFLAGS =  $(foreach H,$(INCPATH),-I$(H)) $(WFLAGS) #$(DEBUG)
 
 all : $(OBJSPATH) $(NAME)
 

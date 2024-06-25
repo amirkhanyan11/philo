@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 12:55:08 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:29:00 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	philos_init(t_table *table)
 	i = 0;
 	while (i < table->num_of_philos)
 	{
-		table->philos_arr[i].id = i;
+		table->philos_arr[i].id = i + 1;
 		table->philos_arr[i].forks[left] = &(table->forks_arr[i]);
 		table->philos_arr[i].forks[right] = &(table->forks_arr[(
 					table->num_of_philos + i - 1) % table->num_of_philos]);
@@ -100,7 +100,7 @@ void	forks_init(t_table *table)
 	while (i < table->num_of_philos)
 	{
 		__init(&(table->forks_arr[i].mtx));
-		table->forks_arr[i].id = i;
+		table->forks_arr[i].id = i + 1;
 		i++;
 	}
 }
