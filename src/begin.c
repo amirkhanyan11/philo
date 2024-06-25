@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:33:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 17:48:04 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:39:40 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ static void	__create_philos(t_table *table)
 	{
 		while (i < table->num_of_philos)
 		{
-			__create(&(table->philos_arr[i].tid), philo_routine,
-				&(table->philos_arr[i]));
+			__create(&(table->philos_arr[i].tid), philo_routine, &(table->philos_arr[i]));
 			i++;
 		}
 	}

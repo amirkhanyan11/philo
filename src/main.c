@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 20:22:11 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:44:46 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	main(int ac, char **av)
 #ifdef __APPLE__
 void	__attribute__((destructor)) moid(void)
 {
+	printf(GREEN);
+	printf("\n\nLeaks report\n");
 	system("leaks philo");
+	printf(RESET);
 }
 #endif // __APPLE__

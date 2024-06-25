@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 20:24:56 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:38:32 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void	*philo_routine(void *data)
 	t_philo	*philo;
 
 	philo = (t_philo *)data;
+
 	wait_for_other_philos(philo->table);
+
 	set_val(&philo->table->mtx, &philo->time_last_meal, get_time(MILLISECOND));
 	inc_val(&(philo->table->mtx), &(philo->table->active_threads));
 	__desync(philo);
