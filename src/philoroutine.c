@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 20:14:22 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 20:24:56 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,9 @@
 inline void	__attribute__((always_inline)) __think(t_philo *philo)
 {
 	philo_log(THINK, philo);
-	ft_usleep((philo->table->time_to_eat * __SUPER__SECRET__PROPORTION__
-			- philo->table->time_to_sleep) / __SUPER__SECRET__PROPORTION__,
+	if (philo->table->num_of_philos % 2 != 0)
+		ft_usleep((philo->table->time_to_eat * __SUPER__SECRET__PROPORTION__
+		- philo->table->time_to_sleep) / __SUPER__SECRET__PROPORTION__,
 		philo->table);
 }
 
