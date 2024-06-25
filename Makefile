@@ -39,7 +39,7 @@ fclean : clean
 
 re : fclean all
 
-sync :
+push :
 
 	make fclean
 	git add .
