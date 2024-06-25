@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   human_readable_wrappers.c                          :+:      :+:    :+:   */
+/*   mutex_wrappers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:15:32 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 20:17:47 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:36:53 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,22 @@ void	mutex_wrapper(t_mutex *mutex, t_opcode opcode)
 		__mutex_err(pthread_mutex_destroy(mutex));
 }
 
-void  __lock(t_mutex *mutex)
+void	__lock(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, LOCK);
 }
 
-void  __unlock(t_mutex *mutex)
+void	__unlock(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, UNLOCK);
 }
 
-void  __init(t_mutex *mutex)
+void	__init(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, INIT);
 }
 
-void  __destroy(t_mutex *mutex)
+void	__destroy(t_mutex *mutex)
 {
 	mutex_wrapper(mutex, DESTROY);
 }

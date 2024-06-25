@@ -1,16 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   optional_traits.c                                  :+:      :+:    :+:   */
+/*   booleans.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 10:46:53 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 11:02:34 by aamirkha         ###   ########.fr       */
+/*   Created: 2024/06/25 13:18:58 by aamirkha          #+#    #+#             */
+/*   Updated: 2024/06/25 13:19:49 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+bool	is_dead(t_philo *philo)
+{
+	t_value	elapsed;
+
+	if (get_val(&philo->mtx, &(philo->full)) == true)
+		return (false);
+	elapsed = get_time(MILLISECOND) - get_val(&philo->mtx,
+			&(philo->time_last_meal));
+	return (elapsed > (get_val(&(philo->table->mtx),
+				&(philo->table->time_to_die)) / MILLISECOND));
+}
+
+bool	check_equality(t_mutex *mutex, t_value *lhv, t_value rhv)
+{
+	int	res;
+
+	__lock(mutex);
+	res = (*lhv == rhv);
+	__unlock(mutex);
+	return (res);
+}
+
+bool	dinner_finished(t_table *table)
+{
+	return (get_val(&(table->mtx), &(table->end_sim)));
+}
 
 bool	doesnt_have_value(const t_optional *optional)
 {

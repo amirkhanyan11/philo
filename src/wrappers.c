@@ -6,13 +6,13 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 20:25:17 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:18:45 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	__attribute__((malloc)) *ft_malloc(size_t n)
+void	__attribute__((malloc))	*ft_malloc(size_t n)
 {
 	void	*ptr;
 
@@ -61,22 +61,3 @@ void	inc_val(t_mutex *mutex, t_value *val)
 	++(*val);
 	__unlock(mutex);
 }
-
-int	check_equality(t_mutex *mutex, t_value *lhv, t_value rhv)
-{
-	int res;
-	
-	__lock(mutex);
-	res = (*lhv == rhv);
-	__unlock(mutex);
-
-	return res;
-}
-
-bool dinner_finished(t_table * table)
-{
-	return get_val(&(table->mtx), &(table->end_sim));
-}
-
-
-

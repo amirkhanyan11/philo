@@ -6,13 +6,13 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:29 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 11:32:49 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:21:32 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cocobolo.h>
 
-void __attribute__((noreturn)) __exit(char const * const err)
+void	__attribute__((noreturn))	__exit(char const *const err)
 {
 	if (NULL != err)
 	{
@@ -20,5 +20,5 @@ void __attribute__((noreturn)) __exit(char const * const err)
 		printf("./philo: %s\n", err);
 		printf(RESET);
 	}
-	exit (EXIT_FAILURE);
+	exit(EXIT_FAILURE);
 }

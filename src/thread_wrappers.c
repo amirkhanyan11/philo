@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:18:21 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 20:25:07 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:16:52 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static void	__thread_err(int status, t_opcode opcode)
 		__exit("No thread could be found corresponding to that"
 			"specified by the given thread ID, thread.");
 	else if (EDEADLK == status)
-		__exit("A deadlock was detected or the value of thread specifies the calling thread.");
+		__exit("A deadlock was detected or the value of"
+			"thread specifies the calling thread.");
 }
 
 void	thread_wrapper(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
@@ -39,17 +40,17 @@ void	thread_wrapper(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
 		__thread_err(pthread_detach(*thread), opcode);
 }
 
-void  __create(pthread_t *thread, t_fptr f, void *data)
+void	__create(pthread_t *thread, t_fptr f, void *data)
 {
 	thread_wrapper(thread, f, data, CREATE);
 }
 
-void  __join(pthread_t *thread)
+void	__join(pthread_t *thread)
 {
 	thread_wrapper(thread, NULL, NULL, JOIN);
 }
 
-void  __attribute__((unused)) __detach(pthread_t *thread)
+void	__attribute__((unused))	__detach(pthread_t *thread)
 {
 	thread_wrapper(thread, NULL, NULL, DETACH);
 }

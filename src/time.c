@@ -6,16 +6,16 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:58:31 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 19:56:54 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:37:04 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
-t_value get_time(t_time_code time_code)
+t_value	get_time(t_time_code time_code)
 {
-	struct timeval tv;
+	struct timeval	tv;
+
 	if (gettimeofday(&tv, NULL) != 0)
 		__exit("Bad time");
 	if (MILLISECOND == time_code)
@@ -26,7 +26,7 @@ t_value get_time(t_time_code time_code)
 		return (tv.tv_sec + tv.tv_usec / MICROSECOND);
 	else
 		__exit("Bad time");
-	return -1;
+	return (-1);
 }
 
 void	ft_usleep(t_value sec, t_table *table)
@@ -34,9 +34,6 @@ void	ft_usleep(t_value sec, t_table *table)
 	t_value	start;
 
 	start = get_time(MICROSECOND);
-	while (sec > (get_time(MICROSECOND) - start) && !dinner_finished(table));
+	while (sec > (get_time(MICROSECOND) - start) && !dinner_finished(table))
+		;
 }
-
-
-
-

@@ -6,13 +6,14 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:03:33 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 12:19:45 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 13:21:18 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cocobolo.h"
 
-bool	__attribute__((sentinel))	any_of(t_optional_predicate unary_predicate, ...)
+bool	__attribute__((sentinel))	any_of(t_optional_predicate unary_predicate,
+		...)
 {
 	bool				res;
 	const t_optional	*current;
