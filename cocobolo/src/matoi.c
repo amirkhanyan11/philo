@@ -6,14 +6,13 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/04/27 18:25:48 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:23:52 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "cocobolo.h"
 
-
-static void _skip_whspaces(char const **const str)
+static void _skip_spaces(char const **const str)
 {
 
 	while (**str && (**str == ' ' || **str == '\n' || **str == '\t'))
@@ -41,7 +40,7 @@ t_optional matoi(char const * str)
 	short sign = 1;
 	t_optional res = make_optional();
 
-	_skip_whspaces(&str);
+	_skip_spaces(&str);
 
 	if (_is_sign(*str))
 	{

@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:34:37 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 20:52:03 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 10:50:12 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void __begin(t_table * table)
 	__create(&(table->observer), observer_routine, table);
 
 	table->start_sim = get_time(MILLISECOND);
-	
+
 	// notify that all threads are ready
 	set_val(&table->mtx, &table->all_set, true);
 
@@ -76,13 +76,13 @@ void __begin(t_table * table)
 	printf(YELLOW);
 	if (!flag)	printf("Everyone is full and happy!\nEach philo had %ld meals\n", table->philos_arr->meal_count);
 	printf(RESET);
-	
+
 }
 
 #ifdef __APPLE__
 void __attribute__((destructor)) moid(void)
 {
-	system("leaks philo")
+	system("leaks philo");
 }
 #endif // __APPLE__
 
@@ -92,9 +92,9 @@ int main(int ac, char **av)
 		__exit("Bad argument count");
 
 	t_table *table = table_init(ac, av);
-	
+
 	__begin(table);
-	
+
 	$t_table(table);
 	return 0;
 }

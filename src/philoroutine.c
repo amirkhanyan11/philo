@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/23 21:04:58 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 12:13:09 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ void __eat(t_philo *philo)
 	philo_log(TAKE_FORK, philo);
 
 	set_val(&(philo->mtx), &(philo->time_last_meal), get_time(MILLISECOND));
-
-	// philo->time_last_meal = get_time(MILLISECOND);
 
 	philo->meal_count++;
 	philo_log(EAT, philo);
@@ -84,7 +82,7 @@ void philo_log(t_opcode opcode, t_philo *philo)
 
 static void  __sleep(t_philo *philo)
 {
-	philo_log(SLEEP, philo);	
+	philo_log(SLEEP, philo);
 	ft_usleep(philo->table->time_to_sleep, philo->table);
 }
 
@@ -98,7 +96,7 @@ static void	__desync(t_philo *philo)
 	{
 		__think(philo);
 	}
-}	
+}
 
 void *philo_routine(void *data)
 {
@@ -142,7 +140,7 @@ void *observer_routine(void * data)
 	{
 		int i = 0;
 		while (i < table->num_of_philos && !dinner_finished(table))
-		{	
+		{
 			if (is_dead(table->philos_arr + i))
 			{
 				philo_log(DIE, &table->philos_arr[i]);

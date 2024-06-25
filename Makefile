@@ -1,33 +1,40 @@
 NAME = philo
+COCOBOLO = ./cocobolo/
+COCOBOLOLIB = $(COCOBOLO)cocobolo.a
 
 SRCSPATH = ./src/
-INCPATH = ./includes/
+INCPATH = ./includes/ $(COCOBOLO)includes/
 OBJSPATH = ./objs/
 
 SRCS = $(wildcard $(SRCSPATH)*.c)
 OBJS = $(patsubst $(SRCSPATH)%.c, $(OBJSPATH)%.o, $(SRCS))
 
-CC = gcc -std=c2x 
-DEBUG = -fsanitize=thread -fstack-usage 
+
+CC = gcc
+DEBUG = #-fsanitize=thread
 WFLAGS = -Wall -Wextra -Werror
 CFLAGS =  $(foreach H,$(INCPATH),-I$(H)) $(DEBUG)  $(WFLAGS)
 
-all : $(NAME)
+all : $(OBJSPATH) $(NAME)
 
 $(OBJSPATH) :
 	mkdir -p objs
 
-$(NAME) : $(OBJSPATH) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+$(NAME) : $(COCOBOLOLIB) $(OBJS)
+	$(CC) $(CFLAGS) $(COCOBOLOLIB) $(OBJS) -o $@
 
 $(OBJSPATH)%.o : $(SRCSPATH)%.c Makefile
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(COCOBOLOLIB) :
+	make -C $(COCOBOLO) all
+
 clean :
-	rm -rf $(OBJSPATH)
+	make -C $(COCOBOLO) clean
+	rm -rf $(OBJSPATH) $(OPTIONALOBJS)
 
 fclean : clean
-
+	make -C $(COCOBOLO) fclean
 	rm -f $(NAME)
 
 re : fclean all
