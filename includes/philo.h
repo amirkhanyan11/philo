@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 14:11:38 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:55:33 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,10 @@ enum
 	right = 1
 };
 
-// funcs
-
 void					forks_init(t_table *table);
 void					philos_init(t_table *table);
 void					forks_destroy(t_table *table);
 void					waiter_init(t_table *table);
-void					mutex_wrapper(t_mutex *mutex, t_opcode opcode);
-void					thread_wrapper(pthread_t *thread, t_fptr f, void *data,
-							t_opcode opcode);
 void					__lock(t_mutex *mutex);
 void					__unlock(t_mutex *mutex);
 void					*ft_malloc(size_t n) __attribute__((malloc));
@@ -102,6 +97,7 @@ void					__destroy(t_mutex *mutex);
 void					__create(pthread_t *thread, t_fptr f, void *data);
 void					__join(pthread_t *thread);
 void					__detach(pthread_t *thread) __attribute__((unused));
+void					__begin(t_table *table);
 
 t_value					get_val(t_mutex *mutex, t_value *value);
 t_value					get_time(t_time_code time_code);

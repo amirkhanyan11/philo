@@ -6,13 +6,13 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:15:32 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 12:36:53 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:46:42 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	mutex_wrapper(t_mutex *mutex, t_opcode opcode)
+static void	mutex_wrapper(t_mutex *mutex, t_opcode opcode)
 {
 	if (LOCK == opcode)
 		__mutex_err(pthread_mutex_lock(mutex));

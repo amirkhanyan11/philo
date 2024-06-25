@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:18:21 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:16:52 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/25 15:35:00 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	__thread_err(int status, t_opcode opcode)
 			"thread specifies the calling thread.");
 }
 
-void	thread_wrapper(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
+static void	thread_wrapper(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
 {
 	if (CREATE == opcode)
 		__thread_err(pthread_create(thread, NULL, f, data), opcode);
