@@ -80,8 +80,7 @@ void	philos_init(t_table *table)
 	{
 		table->philos_arr[i].id = i + 1;
 		table->philos_arr[i].forks[left] = &(table->forks_arr[i]);
-		table->philos_arr[i].forks[right] = &(table->forks_arr[(
-					table->num_of_philos + i - 1) % table->num_of_philos]);
+		table->philos_arr[i].forks[right] = &(table->forks_arr[(i + 1) % table->num_of_philos]);
 		__init(&(table->philos_arr[i].mtx));
 		table->philos_arr[i].time_last_meal = 0;
 		table->philos_arr[i].dead = 0;

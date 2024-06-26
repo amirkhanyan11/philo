@@ -30,7 +30,7 @@ $(OBJSPATH) :
 	@mkdir -p objs
 
 $(NAME) : $(COCOBOLOLIB) $(OBJS)
-	@$(CC) $(CFLAGS) $(COCOBOLOLIB) $(OBJS) -o $@
+	@$(CC) $(CFLAGS) $(OBJS) $(COCOBOLOLIB)  -o $@
 	@echo "$(GREEN) philo compiled! $(END)"
 
 $(OBJSPATH)%.o : $(SRCSPATH)%.c Makefile

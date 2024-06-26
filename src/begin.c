@@ -16,9 +16,7 @@ static void	__log_itog(t_table *table)
 {
 	bool	flag;
 	int		i;
-	int		meals;
 
-	meals = table->philos_arr->meal_count;
 	flag = false;
 	i = 0;
 	while (i < table->num_of_philos)
@@ -85,7 +83,7 @@ void	__begin(t_table *table)
 
 	table->start_sim = get_time(MILLISECOND);
 
-	set_val(&table->mtx, &table->all_set, true);
+	set_val(&table->mtx, &table->all_set, true);	
 
 	i = 0;
 	while (i < table->num_of_philos)

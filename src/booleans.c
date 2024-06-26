@@ -18,15 +18,13 @@ bool	is_dead(t_philo *philo)
 
 	if (get_val(&philo->mtx, &(philo->full)) == true)
 		return (false);
-	elapsed = get_time(MILLISECOND) - get_val(&philo->mtx,
-			&(philo->time_last_meal));
-	return (elapsed > (get_val(&(philo->table->mtx),
-				&(philo->table->time_to_die)) / MILLISECOND));
+	elapsed = get_time(MILLISECOND) - get_val(&philo->mtx, &(philo->time_last_meal));
+	return (elapsed > (philo->table->time_to_die / MILLISECOND));
 }
 
 bool	check_equality(t_mutex *mutex, t_value *lhv, t_value rhv)
 {
-	int	res;
+	bool	res;
 
 	__lock(mutex);
 	res = (*lhv == rhv);

@@ -18,7 +18,7 @@ void	*sentinel_routine(void *data)
 	int		i;
 
 	table = (t_table *)data;
-	while (0 == check_equality(&table->mtx, &table->active_threads,
+	while (false == check_equality(&table->mtx, &table->active_threads,
 			table->num_of_philos))
 		;
 	while (!dinner_finished(table))
