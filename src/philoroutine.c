@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 20:38:32 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 15:37:02 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,10 @@ void	__eat(t_philo *philo)
 	__lock(&(philo->forks[second]->mtx));
 	philo_log(TAKE_FORK, philo);
 	set_val(&(philo->mtx), &(philo->time_last_meal), get_time(MILLISECOND));
+
 	philo->meal_count++;
 	philo_log(EAT, philo);
+
 	ft_usleep(philo->table->time_to_eat, philo->table);
 	if (has_value(&philo->table->times_each_eat)
 		&& philo->meal_count == value(&philo->table->times_each_eat))
