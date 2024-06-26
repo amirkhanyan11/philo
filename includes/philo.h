@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 20:14:04 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:06:12 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void					set_val(t_mutex *mutex, t_value *dest, t_value value);
 void					wait_for_other_philos(t_table *table);
 void					ft_usleep(t_value sec, t_table *table);
 void					philo_log(t_opcode opcode, t_philo *philo);
-void					*observer_routine(void *data);
+void					*sentinel_routine(void *data);
 void					inc_val(t_mutex *mutex, t_value *val);
 void					__mutex_err(int status);
 void					__t_table__(t_table *table);
@@ -142,7 +142,7 @@ struct					s_table
 	t_value				time_to_sleep;
 	t_mutex				mtx;
 	t_mutex				iomtx;
-	pthread_t			observer;
+	pthread_t			sentinel;
 	t_value				all_set;
 	t_philo				*philos_arr;
 	t_fork				*forks_arr;

@@ -6,13 +6,13 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:04 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:19:21 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:06:12 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	*observer_routine(void *data)
+void	*sentinel_routine(void *data)
 {
 	t_table	*table;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 14:20:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:18:45 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:42:33 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,24 @@ void	__attribute__((malloc))	*ft_malloc(size_t n)
 
 	ptr = malloc(n);
 	if (NULL == ptr)
-		__exit("Bad alloc");
+		__exit("Bad alloc", __scary_error_info__);
 	return (ptr);
 }
 
 void	__mutex_err(int status)
 {
 	if (EINVAL == status)
-		__exit("The value specified by mutex is invalid");
+		__exit("The value specified by mutex is invalid", __scary_error_info__);
 	else if (EDEADLK == status)
 		__exit("A deadlock would occur if the thread "
-			"blocked waiting for mutex.");
+			"blocked waiting for mutex.", __scary_error_info__);
 	else if (EPERM == status)
-		__exit("The current thread does not hold a lock on mutex.");
+		__exit("The current thread does not hold a lock on mutex.", __scary_error_info__);
 	else if (ENOMEM == status)
 		__exit("The process cannot allocate enough memory"
-			" to create another mutex.");
+			" to create another mutex.", __scary_error_info__);
 	else if (EBUSY == status)
-		__exit("Mutex is busy");
+		__exit("Mutex is busy", __scary_error_info__);
 }
 
 t_value	get_val(t_mutex *mutex, t_value *value)

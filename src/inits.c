@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:02:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:29:00 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:48:10 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 inline void __attribute__((always_inline))	___death(t_table *table)
 {
 	free (table);
-	__exit("Bad argument values");
+	__exit("Bad argument values", __scary_error_info__);
 }
 
 void	__init__minit(t_table *table, char **av)
@@ -48,6 +48,7 @@ t_table	*table_init(int ac, char **av)
 	t_optional	times_each_eat;
 
 	table = ft_malloc(sizeof(t_table));
+	// __exit("o novu");
 	__init__minit(table, av);
 	if (ac == 6)
 	{

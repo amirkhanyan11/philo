@@ -26,12 +26,10 @@ all : $(OBJSPATH) $(NAME)
 
 $(OBJSPATH) :
 	@mkdir -p objs
-	@echo "$(GREEN) cocobolo compiling... $(END)"
 
 $(NAME) : $(OBJS)
 	@make -C $(OPTIONAL) all
 	@ar -rcs $(NAME) $(OBJSPATH)*.o
-	@echo "$(YELLOW) cocobolo compiled! $(END)"
 
 $(OBJSPATH)%.o : $(SRCSPATH)%.c Makefile
 	@$(CC) $(CFLAGS) -c $< -o $@

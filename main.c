@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   value.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/25 11:19:30 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/26 20:41:06 by aamirkha         ###   ########.fr       */
+/*   Created: 2024/06/26 18:33:22 by aamirkha          #+#    #+#             */
+/*   Updated: 2024/06/26 20:03:43 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cocobolo.h"
+#include <stdio.h>
+#include <stdlib.h>
 
-t_value	value(const t_optional *optional)
+#define bar(...) foo(__VA_ARGS__)
+
+
+int	main (void)
 {
-	if (has_value(optional))
-		return (optional->value);
-	__exit("Bad optional access", __scary_error_info__);
+	__int128_t x = 1;
+	printf("%s\n", __FILE__);
+	return (0);
 }
 
-t_value	value_or(const t_optional *optional, t_value val)
-{
-	if (has_value(optional))
-		return (optional->value);
-	return (val);
-}

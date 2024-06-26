@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 18:11:02 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/26 15:37:02 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:02:23 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	__eat(t_philo *philo)
 	int	first;
 	int	second;
 
-	first = left;
-	if (philo->id % 2 == 0)
-		first = right;
+	first = (philo->id % 2 == 0);
+
 	second = !first;
+
 	__lock(&(philo->forks[first]->mtx));
 	philo_log(TAKE_FORK, philo);
 	__lock(&(philo->forks[second]->mtx));

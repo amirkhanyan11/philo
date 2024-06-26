@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 11:27:08 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 20:42:09 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:40:35 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@
 # define RED "\033[1;31m"
 # define RESET "\033[0m"
 
-void		__exit(char const *const err) __attribute__((noreturn));
+# define __scary_error_info__ __FILE__, __PRETTY_FUNCTION__, __LINE__, NULL
+
+void		__exit(char const *const err, ...) __attribute__((noreturn)) __attribute__((sentinel));
 t_optional	matoi(char const *str);
 
 #endif // COCOBOLO_H

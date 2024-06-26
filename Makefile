@@ -28,11 +28,10 @@ all : $(OBJSPATH) $(NAME)
 
 $(OBJSPATH) :
 	@mkdir -p objs
-	@echo "$(YELLOW) philo compiling... $(END)"
 
 $(NAME) : $(COCOBOLOLIB) $(OBJS)
 	@$(CC) $(CFLAGS) $(COCOBOLOLIB) $(OBJS) -o $@
-	@echo "$(PURPLE) philo compiled! $(END)"
+	@echo "$(GREEN) philo compiled! $(END)"
 
 $(OBJSPATH)%.o : $(SRCSPATH)%.c Makefile
 	@$(CC) $(CFLAGS) -c $< -o $@

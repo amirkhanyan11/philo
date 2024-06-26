@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 15:33:23 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 20:39:40 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 17:10:34 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	__begin(t_table *table)
 
 	__create_philos(table);
 
-	__create(&(table->observer), observer_routine, table);
+	__create(&(table->sentinel), sentinel_routine, table);
 
 	table->start_sim = get_time(MILLISECOND);
 
@@ -94,6 +94,6 @@ void	__begin(t_table *table)
 		i++;
 	}
 	set_val(&table->mtx, &table->end_sim, true);
-	__join(&(table->observer));
+	__join(&(table->sentinel));
 	__log_itog(table);
 }

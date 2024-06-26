@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:58:31 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 16:09:41 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/26 20:43:07 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ t_value	get_time(t_time_code time_code)
 	struct timeval	tv;
 
 	if (gettimeofday(&tv, NULL) != 0)
-		__exit("Bad time");
+		__exit("Bad time", __scary_error_info__);
 	if (MILLISECOND == time_code)
 		return (tv.tv_sec * MILLISECOND + tv.tv_usec / MILLISECOND);
 	else if (MICROSECOND == time_code)
 		return (tv.tv_sec * MICROSECOND + tv.tv_usec);
 	else
-		__exit("Bad time");
+		__exit("Bad time", __scary_error_info__);
 	return (-1);
 }
 
