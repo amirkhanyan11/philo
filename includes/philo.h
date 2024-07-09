@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:31:50 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/26 17:06:12 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/29 17:32:06 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void					ft_usleep(t_value sec, t_table *table);
 void					philo_log(t_opcode opcode, t_philo *philo);
 void					*sentinel_routine(void *data);
 void					inc_val(t_mutex *mutex, t_value *val);
+void					sentinel_wait(t_table *table);
 void					__mutex_err(int status);
 void					__t_table__(t_table *table);
 void					__lock(t_mutex *mutex);
@@ -99,6 +100,7 @@ void					__create(pthread_t *thread, t_fptr f, void *data);
 void					__join(pthread_t *thread);
 void					__detach(pthread_t *thread) __attribute__((unused));
 void					__begin(t_table *table);
+void					__jetlag(t_philo *philo);
 
 t_value					get_val(t_mutex *mutex, t_value *value);
 t_value					get_time(t_time_code time_code);

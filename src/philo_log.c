@@ -6,13 +6,13 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:14:33 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:14:39 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/29 17:42:53 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-inline void __attribute__((always_inline))	__log__eat(t_philo *philo)
+inline void	__attribute__((always_inline))	__log__eat(t_philo *philo)
 {
 	printf(CYAN);
 	printf("%ld %ld is eating\n", get_time(MILLISECOND)
@@ -20,11 +20,11 @@ inline void __attribute__((always_inline))	__log__eat(t_philo *philo)
 	printf(RESET);
 }
 
-inline void __attribute__((always_inline))	__log__die(t_philo *philo)
+inline void	__attribute__((always_inline))	__log__die(t_philo *philo)
 {
 	printf(RED);
-	printf("%ld %ld died\n", get_time(MILLISECOND)
-		- philo->table->start_sim, philo->id);
+	printf("%ld %ld died\n", get_time(MILLISECOND) - philo->table->start_sim,
+		philo->id);
 	printf(RESET);
 }
 

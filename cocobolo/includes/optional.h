@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 11:09:11 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 17:37:44 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/29 17:25:07 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void						set_optional(t_optional *optional, t_value val);
 bool						has_value(const t_optional *optional);
 t_value						value(const t_optional *optional);
 t_value						value_or(const t_optional *optional, t_value val);
-bool						any_of(t_optional_predicate unary_predicate, ...) __attribute__((sentinel));
+bool						any_of(t_optional_predicate unary_predicate,
+								...) __attribute__((sentinel));
 
 #endif // OPTIONAL_H

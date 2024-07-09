@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/23 20:18:21 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/26 20:42:01 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/06/29 17:37:37 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,23 @@
 static void	__thread_err(int status, t_opcode opcode)
 {
 	if (EAGAIN == status)
-		__exit("No resources to create another thread", __scary_error_info__);
+		__exit("No resources to create another thread");
 	else if (EPERM == status)
-		__exit("The caller does not have appropriate permission\n", __scary_error_info__);
+		__exit("The caller does not have appropriate permission\n");
 	else if (EINVAL == status && CREATE == opcode)
-		__exit("The value specified by attr is invalid.", __scary_error_info__);
+		__exit("The value specified by attr is invalid.");
 	else if (EINVAL == status && (JOIN == opcode || DETACH == opcode))
-		__exit("The value specified by thread is not joinable\n", __scary_error_info__);
+		__exit("The value specified by thread is not joinable\n");
 	else if (ESRCH == status)
 		__exit("No thread could be found corresponding to that"
-			"specified by the given thread ID, thread.", __scary_error_info__);
+			"specified by the given thread ID, thread.");
 	else if (EDEADLK == status)
 		__exit("A deadlock was detected or the value of"
-			"thread specifies the calling thread.", __scary_error_info__);
+			"thread specifies the calling thread.");
 }
 
-static void	thread_wrapper(pthread_t *thread, t_fptr f, void *data, t_opcode opcode)
+static void	thread_wrapper(pthread_t *thread, t_fptr f, void *data,
+		t_opcode opcode)
 {
 	if (CREATE == opcode)
 		__thread_err(pthread_create(thread, NULL, f, data), opcode);

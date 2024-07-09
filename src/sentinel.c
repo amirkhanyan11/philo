@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   observer.c                                         :+:      :+:    :+:   */
+/*   sentinel.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:15:04 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/26 17:06:12 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/07/09 17:53:41 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	*sentinel_routine(void *data)
 	int		i;
 
 	table = (t_table *)data;
-	while (false == check_equality(&table->mtx, &table->active_threads,
-			table->num_of_philos))
-		;
+
+	sentinel_wait(table);
+
 	while (!dinner_finished(table))
 	{
 		i = 0;

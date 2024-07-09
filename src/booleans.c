@@ -6,7 +6,7 @@
 /*   By: aamirkha <aamirkha@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/25 13:18:58 by aamirkha          #+#    #+#             */
-/*   Updated: 2024/06/25 13:19:49 by aamirkha         ###   ########.fr       */
+/*   Updated: 2024/07/04 16:37:13 by aamirkha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ bool	is_dead(t_philo *philo)
 	if (get_val(&philo->mtx, &(philo->full)) == true)
 		return (false);
 	elapsed = get_time(MILLISECOND) - get_val(&philo->mtx, &(philo->time_last_meal));
+
 	return (elapsed > (philo->table->time_to_die / MILLISECOND));
 }
 
